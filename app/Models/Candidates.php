@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Candidates extends Model
 {
@@ -16,11 +17,21 @@ class Candidates extends Model
         'university_place',
         'marital_state',
         'last_work',
-        'languages',
+        'birthday',
+        'language_id',
         'voice_path',
         'photo_path',
         'positive_skills',
-        'apps',
-      
+        'app_id',
       ];
+
+    public function language():BelongsTo
+    {
+        return $this->belongsTo(Language::class);
+    }
+
+    public function app():BelongsTo
+    {
+        return $this->belongsTo(App::class);
+    }
 }

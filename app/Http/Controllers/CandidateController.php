@@ -20,16 +20,16 @@ class CandidateController extends Controller
     public function index()
     {
         try {
-            $users = $this->userRepository->all();
+            $candidates = $this->candidate->all();
 
             $errorMessage = null;
-            if(is_string($users)) {
-                $errorMessage = $users;
+            if(is_string($candidates)) {
+                $errorMessage = $candidates;
             }
-            return view('user.index', compact('users', 'errorMessage'));
+            return view('candidate.index', compact('candidates', 'errorMessage'));
         }catch (\Exception $e){
-            Log::error(message: 'Hech qanday role topilmadi:' .' '. $e->getMessage() .' '. 'Xato qatori'.' ' . $e->getLine());
-            return  redirect()->route('role.index')->with('error', 'No se han encontrado roles!');
+            Log::error(message: 'Hech qanday nomzod topilmadi:' .' '. $e->getMessage() .' '. 'Xato qatori'.' ' . $e->getLine());
+            return  redirect()->route('candidate.index')->with('error', 'No se han encontrado nomzod!');
         }
     }
 

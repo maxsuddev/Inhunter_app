@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -24,9 +25,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/login', 'login')->name('login.post');
     Route::get('/logout', 'logout')->name('logout');
 });
-Route::group(['middleware' => ['role:admin']], function () {
 
-});
 
 Route::controller(RoleController::class)->group(function () {
     Route::get('/roles', 'index')->name('role.index');
@@ -35,6 +34,12 @@ Route::controller(RoleController::class)->group(function () {
 Route::controller(PermissionController::class)->group(function () {
     Route::get('/permission', 'index')->name('permission.index');
 });
+
+Route::controller(CandidateController::class)->group(function () {
+    Route::get('/candidate', 'index')->name('candidate.index');
+});
+
+
 
 
 //Rote::controller(RoleController::class)->group(function () {})

@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('candidates', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('language_id')->constrained('languages')->onDelete('cascade');
+            $table->foreignId('app_id')->constrained('apps')->onDelete('cascade');
             $table->bigInteger('telegram_id');
             $table->text('full_name')->nullable();
             $table->string('phone_number',30)->nullable();
@@ -23,10 +25,8 @@ return new class extends Migration
             $table->text('university_place')->nullable();
             $table->enum('marital_state',['married','no_married','divorce','widow'])->nullable();
             $table->text('last_work')->nullable();
-            $table->string('languages')->nullable();
             $table->string('voice_path')->nullable();
             $table->text('positive_skills')->nullable();
-            $table->string('apps')->nullable();
             $table->string('photo_path')->nullable();
             $table->timestamps();
         });

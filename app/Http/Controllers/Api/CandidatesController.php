@@ -15,6 +15,7 @@ class CandidatesController extends Controller
     {
         try {
             $validatedData = $request->validate([
+                'birthday' => 'required',
                 'telegram_id' => 'required|integer',
                 'full_name' => 'required|string',
                 'phone_number' => 'required|string',
@@ -39,6 +40,8 @@ class CandidatesController extends Controller
             if ($request->hasFile('photo_path')) {
                 $validatedData['photo_path'] = $request->file('photo_path')->store('Candidates/photos');
             }
+            $language_id = str_replace(',', '', $validatedData['languages']);
+            $app_id = str_replace(',', '', $validatedData['apps']);
 
             // Kandidat yaratish
             $candidate = Candidates::create([
@@ -46,14 +49,15 @@ class CandidatesController extends Controller
                 'full_name' => $validatedData['full_name'],
                 'phone_number' => $validatedData['phone_number'],
                 'address' => $validatedData['address'],
+                'birthday' => $validatedData['birthday'],
                 'is_student' => $validatedData['is_student'],
                 'gender' => $validatedData['gender'],
                 'university_place' => $validatedData['university_place'],
                 'marital_state' => $validatedData['marital_state'],
                 'last_work' => $validatedData['last_work'],
-                'languages' => $validatedData['languages'],
+                'language_id' => $language_id,
                 'positive_skills' => $validatedData['positive_skills'],
-                'apps' => $validatedData['apps'],
+                'app_id' => $app_id,
                 'voice_path' => $validatedData['voice_path'] ?? null,
                 'photo_path' => $validatedData['photo_path'] ?? null
             ]);

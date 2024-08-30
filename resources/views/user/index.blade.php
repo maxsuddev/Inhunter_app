@@ -10,28 +10,31 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Users Tables</h5>
-@dd($users)
+
             <!-- Table with stripped rows -->
             <table class="table datatable">
               <thead>
                 <tr>
                   <th>
-                    <b>N</b>ame
+                    ID
                   </th>
-                  <th>Ext.</th>
-                  <th>City</th>
-                  <th data-type="date" data-format="YYYY/DD/MM">Start Date</th>
-                  <th>Completion</th>
+                  <th>name.</th>
+                  <th>email</th>
+                    <th>role</th>
+                  <th data-type="date" data-format="YYYY/DD/MM">Created User</th>
                 </tr>
               </thead>
               <tbody>
+              @foreach($users as $user)
+
                 <tr>
-                  <td>Unity Pugh</td>
-                  <td>9958</td>
-                  <td>Curicó</td>
-                  <td>2005/02/11</td>
-                  <td>37%</td>
+                  <td>{{$user->id}}</td>
+                  <td>{{$user->name}}</td>
+                    <td>{{$user->email}}</td>
+                    <td>userRole</td>
+                  <td>{{$user->created_at}}</td>
                 </tr>
+              @endforeach
 
               </tbody>
             </table>
