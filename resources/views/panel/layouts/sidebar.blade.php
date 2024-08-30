@@ -12,16 +12,30 @@
 
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="{{route('user')}}">
+            <a class="nav-link collapsed" href="{{route('users.index')}}">
                 <i class="bi bi-person"></i>
                 <span>User</span>
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="{{}}">
+            <a class="nav-link collapsed" href="{{route('role.index')}}">
                 <i class="bi bi-person"></i>
                 <span>Role</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{route('permission.index')}}">
+                <i class="bi bi-person"></i>
+                <span>Permission</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{route('candidate.index')}}">
+                <i class="bi bi-person"></i>
+                <span>Candidate</span>
             </a>
         </li>
 

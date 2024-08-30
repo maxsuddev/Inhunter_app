@@ -2,6 +2,7 @@
 
 @section('content')
 
+    @include('error_message')
 
 
 

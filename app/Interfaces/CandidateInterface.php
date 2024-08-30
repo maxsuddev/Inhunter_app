@@ -2,7 +2,7 @@
 
 namespace App\Interfaces;
 
-interface PermissionInterface
+interface CandidateInterface
 {
     public function all();
 

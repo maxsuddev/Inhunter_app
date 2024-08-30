@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Interfaces\RoleInterface;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class RoleController extends Controller

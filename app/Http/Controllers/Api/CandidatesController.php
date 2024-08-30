@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\Candidates;
-use Illuminate\Support\Facades\Log; // Log fasadini import qilish
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
+// Log fasadini import qilish
 
 class CandidatesController extends Controller
 {
@@ -27,16 +30,16 @@ class CandidatesController extends Controller
                 'voice_path' => 'nullable|file|mimes:ogg,mp3,wav',
                 'photo_path' => 'nullable|file|mimes:jpg,jpeg,png'
             ]);
-        
+
             // Fayllarni saqlash
             if ($request->hasFile('voice_path')) {
                 $validatedData['voice_path'] = $request->file('voice_path')->store('Candidates/voices');
             }
-        
+
             if ($request->hasFile('photo_path')) {
                 $validatedData['photo_path'] = $request->file('photo_path')->store('Candidates/photos');
             }
-        
+
             // Kandidat yaratish
             $candidate = Candidates::create([
                 'telegram_id' => $validatedData['telegram_id'],
@@ -54,19 +57,19 @@ class CandidatesController extends Controller
                 'voice_path' => $validatedData['voice_path'] ?? null,
                 'photo_path' => $validatedData['photo_path'] ?? null
             ]);
-        
+
             return response()->json([
                 'success' => true,
                 'message' => 'Candidate successfully created.',
                 'data' => $candidate
             ], 201);
-            
+
         } catch (\Exception $e) {
             // Xatolikni logga yozish
             Log::error('Xatolik yuz berdi: '.$e->getMessage(), [
                 'trace' => $e->getTraceAsString()
             ]);
-            
+
             // Xatolikni foydalanuvchiga qaytarish
             return response()->json([
                 'success' => false,

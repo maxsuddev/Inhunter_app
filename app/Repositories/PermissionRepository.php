@@ -9,24 +9,24 @@ use Spatie\Permission\Models\Permission;
 class PermissionRepository implements PermissionInterface
 {
 
-    public function getPermissions(): Collection
+    public function all(): Collection
     {
         $permissions = Permission::all();
         return $permissions->load('roles');
     }
 
-    public function addPermission(array$request):mixed
+    public function create(array$request):mixed
     {
         return Permission::create($request);
     }
 
-    public function deletePermission(int$id): ?bool
+    public function delete(int$id): ?bool
     {
         $permission = Permission::find($id);
         return $permission->delete();
     }
 
-    public function updatePermission(array$request, int$id): array|Permission|null
+    public function update(array$request, int$id): array|Permission|null
     {
         $role = Permission::find($id);
         $role->update($request);

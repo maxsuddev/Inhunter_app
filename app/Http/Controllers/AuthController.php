@@ -17,10 +17,10 @@ class AuthController extends Controller
         try {
             if (!auth('web')->attempt(['email' => $request->email, 'password' => $request->password]))
             {
-                return redirect()->back()->withErrors(['email' => 'Email atau password salah!']);
+                return redirect()->back()->withErrors(['error' => 'Email atau password salah!']);
             }
 
-            return redirect()->route('dashboard');
+            return redirect()->route('dashboard')->with(['success' => 'Berhasil login!']);
         }
         catch (\Exception $e)
         {
