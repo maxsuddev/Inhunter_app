@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('language_id')->constrained('languages')->onDelete('cascade');
             $table->foreignId('app_id')->constrained('apps')->onDelete('cascade');
+            $table->foreignId('vacancy_id')->constrained('vacancies')->onDelete('cascade');
+
+            $table->enum('status', ['new', 'interview', 'archive', 'hired'])->default('new');
             $table->bigInteger('telegram_id');
             $table->text('full_name')->nullable();
             $table->string('phone_number',30)->nullable();
@@ -29,6 +32,7 @@ return new class extends Migration
             $table->text('positive_skills')->nullable();
             $table->string('photo_path')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
