@@ -31,19 +31,21 @@ class CandidatesController extends Controller
                 'voice_path' => 'nullable|file|mimes:ogg,mp3,wav',
                 'photo_path' => 'nullable|file|mimes:jpg,jpeg,png'
             ]);
-
-            // Fayllarni saqlash
             if ($request->hasFile('voice_path')) {
-                $validatedData['voice_path'] = $request->file('voice_path')->store('Candidates/voices');
+                $file = $request->file('voice_path');
+                $fileName = md5(time() . $file->getClientOriginalName()) . '.' . $file->getClientOriginalExtension();
+                $validatedData['voice_path'] = $file->storeAs('Candidates/voices', $fileName);
             }
 
             if ($request->hasFile('photo_path')) {
-                $validatedData['photo_path'] = $request->file('photo_path')->store('Candidates/photos');
+                $file = $request->file('photo_path');
+                $fileName = md5(time() . $file->getClientOriginalName()) . '.' . $file->getClientOriginalExtension();
+                $validatedData['photo_path'] = $file->storeAs('Candidates/photos', $fileName);
             }
+
             $language_id = str_replace(',', '', $validatedData['languages']);
             $app_id = str_replace(',', '', $validatedData['apps']);
 
-            // Kandidat yaratish
             $candidate = Candidates::create([
                 'telegram_id' => $validatedData['telegram_id'],
                 'full_name' => $validatedData['full_name'],
@@ -69,12 +71,10 @@ class CandidatesController extends Controller
             ], 201);
 
         } catch (\Exception $e) {
-            // Xatolikni logga yozish
             Log::error('Xatolik yuz berdi: '.$e->getMessage(), [
                 'trace' => $e->getTraceAsString()
             ]);
 
-            // Xatolikni foydalanuvchiga qaytarish
             return response()->json([
                 'success' => false,
                 'message' => 'Candidate creation failed. Please try again later.'

@@ -37,8 +37,8 @@ Route::controller(PermissionController::class)->group(function () {
 
 Route::controller(CandidateController::class)->group(function () {
     Route::get('/candidate', 'index')->name('candidate.index');
+    Route::get('candidate/{candidate}', 'show')->name('candidate.show');
 });
-
 
 
 

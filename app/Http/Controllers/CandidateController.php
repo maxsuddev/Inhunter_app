@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Interfaces\CandidateInterface;
+use App\Models\Candidates;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -52,9 +53,9 @@ class CandidateController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Candidates $candidate)
     {
-        //
+        return view('candidate.show', compact('candidate'));
     }
 
     /**

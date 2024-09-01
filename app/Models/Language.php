@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Language extends Model
 {
-
+protected $table = 'languages';
     protected $fillable = [
         'name',
     ];

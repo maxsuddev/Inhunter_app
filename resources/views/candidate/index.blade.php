@@ -17,46 +17,32 @@
                                     ID
                                 </th>
                                 <th>Full Name.</th>
-                                <th>Address</th>
-                                <th>Phone</th>
-                                <th>Birthday</th>
                                 <th>Gender</th>
-                                <th>Is_student</th>
-                                <th>University Place</th>
-                                <th>Marital State</th>
-                                <th>Last Work</th>
-                                <th>Positive Skills</th>
                                 <th>Language</th>
                                 <th>App</th>
                                 <th data-type="date" data-format="YYYY/DD/MM">Start Date</th>
+                                <th>Show</th>
                             </tr>
                             </thead>
                             <tbody>
+                            @if(!is_string($candidates))
                             @foreach($candidates as $candidate)
                             <tr>
                                 <td>{{$candidate->id}}</td>
                                 <td>{{$candidate->full_name}}</td>
-                                <td>{{$candidate->phone_number}}</td>
-                                <td>{{$candidate->address}}</td>
-                                <td>{{$candidate->brithday}}</td>
                                 <td>{{$candidate->gender}}</td>
-                                <td>{{$candidate->is_student}}</td>
-                                <td>{{$candidate->university_place}}</td>
-                                <td>{{$candidate->marital_state}}</td>
-                                <td>{{$candidate->last_work}}</td>
-                                <td>{{$candidate->positive_skills}}</td>
                                 <td>{{$candidate->language->name}}</td>
                                 <td>{{$candidate->app->name}}</td>
-
                                 <td>{{$candidate->created_at}}</td>
-
-
-
-
-
-
+                                <td><a href="{{route('candidate.show',['candidate' => $candidate->id])}}">Show</a> </td>
                             </tr>
-                            @endforeach
+                            @endforeach  @else
+                                <tr>
+                                    <td>{{$candidates}}</td>
+                                </tr>
+                            @endif
+
+
 
                             </tbody>
                         </table>
