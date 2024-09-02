@@ -2,9 +2,12 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VacancyController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -41,5 +44,20 @@ Route::controller(CandidateController::class)->group(function () {
 });
 
 
+Route::controller(CompanyController::class)->group(function () {
+   Route::get('/company', 'index')->name('company.index');
+   Route::get('company/create', 'create')->name('company.create');
+   Route::post('company', 'store')->name('company.store');
+});
 
-//Rote::controller(RoleController::class)->group(function () {})
+Route::controller(CategoryController::class)->group(function () {
+   Route::get('/category', 'index')->name('category.index');
+   Route::get('category/create', 'create')->name('category.create');
+   Route::post('category', 'store')->name('category.store');
+});
+
+Route::controller(VacancyController::class)->group(function () {
+   Route::get('/vacancy', 'index')->name('vacancy.index');
+});
+
+

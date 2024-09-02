@@ -1,5 +1,6 @@
 @extends('panel.layouts.app')
-
+@section('title', 'Role')
+@section('page', 'Roles Table')
 @section('content')
 
 

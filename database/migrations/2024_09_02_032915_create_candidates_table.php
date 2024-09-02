@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('language_id')->constrained('languages')->onDelete('cascade');
             $table->foreignId('app_id')->constrained('apps')->onDelete('cascade');
-            $table->foreignId('vacancy_id')->constrained('vacancies')->onDelete('cascade');
-
             $table->enum('status', ['new', 'interview', 'archive', 'hired'])->default('new');
             $table->bigInteger('telegram_id');
             $table->text('full_name')->nullable();

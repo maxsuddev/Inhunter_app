@@ -1,5 +1,6 @@
 @extends('panel.layouts.app')
-
+@section('title', 'Permission')
+@section('page', 'Permissions Table')
 @section('content')
 
 

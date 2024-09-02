@@ -13,9 +13,14 @@ return new class extends Migration
     {
         Schema::create('vacancies', function (Blueprint $table) {
             $table->id();
+
+            //foreign
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('company_id')->constrained('companies')->ondelete('cascade');
             $table->foreignId('category_id')->constrained('categories')->ondelete('cascade');
+            $table->foreignId('candidate_id')->constrained('candidates')->ondelete('cascade');
+
+
             $table->string('name');
             $table->enum('state', ['open_vacancy', 'close_vacancy', 'cancel_vacancy'])->default('open_vacancy');
             $table->timestamp('opened_at')->nullable();

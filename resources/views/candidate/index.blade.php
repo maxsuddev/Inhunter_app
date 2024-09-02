@@ -1,5 +1,6 @@
 @extends('panel.layouts.app')
-
+@section('title', 'Candidate')
+@section('page', 'Candidates Table')
 @section('content')
 
 
@@ -34,7 +35,7 @@
                                 <td>{{$candidate->language->name}}</td>
                                 <td>{{$candidate->app->name}}</td>
                                 <td>{{$candidate->created_at}}</td>
-                                <td><a href="{{route('candidate.show',['candidate' => $candidate->id])}}">Show</a> </td>
+                                <td> <a href="{{route('candidate.show',['candidate' => $candidate->id])}}"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a></td>
                             </tr>
                             @endforeach  @else
                                 <tr>
