@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Interfaces\UserInterface;
+use App\Models\User;
+use App\Models\Vacancy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -23,12 +25,12 @@ class UserController extends Controller
             $users = $this->userRepository->all();
 
             $errorMessage = null;
-            if(is_string($users)) {
+            if (is_string($users)) {
                 $errorMessage = $users;
             }
             return view('user.index', compact('users', 'errorMessage'));
-        }catch (\Exception $e){
-            Log::error(message: 'Hech qanday role topilmadi:' .' '. $e->getMessage() .' '. 'Xato qatori'.' ' . $e->getLine());
+        } catch (\Exception $e) {
+            Log::error(message: 'Hech qanday role topilmadi:' . ' ' . $e->getMessage() . ' ' . 'Xato qatori' . ' ' . $e->getLine());
             return  redirect()->route('role.index')->with('error', 'No se han encontrado roles!');
         }
     }
@@ -53,9 +55,14 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
+    public function show(User $user, Request $request) {
+        $user = User::findOrFail($user->id); // Foydalanuvchini ID bo'yicha topamiz
+        $state = $request->input('state', 'open_vacancy'); // Default to 'open_vacancy' if not provided
+
+        $vacancies = Vacancy::where('user_id', $user->id)
+                            ->where('state', $state)
+                            ->get();
+        return view('user.show', compact('user', 'vacancies'));
     }
 
     /**

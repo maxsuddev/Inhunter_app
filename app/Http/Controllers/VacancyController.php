@@ -10,25 +10,30 @@ class VacancyController extends Controller
 {
     protected VacancyInterface $vacancyRepository;
 
-
     public function __construct(VacancyInterface $vacancyRepository)
     {
         $this->vacancyRepository = $vacancyRepository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         try {
             $vacancies = $this->vacancyRepository->all();
+            $state = $request->input('state', 'open_vacancy');
+
+            $filtrVacancies = $vacancies->filter(function ($vacancy) use ($state) {
+                return $vacancy->state === $state;
+            });
 
             $errorMessage = null;
-            if(is_string($vacancies)) {
+            if (is_string($vacancies)) {
                 $errorMessage = $vacancies;
             }
-            return view('vacancy.index', compact('vacancies', 'errorMessage'));
-        }catch (\Exception $e){
-            Log::error(message: 'Hech qanday vacancy topilmadi:' .' '. $e->getMessage() .' '. 'Xato qatori'.' ' . $e->getLine());
-            return  redirect()->route('vacancy.index')->with('error', 'No found data!');
+
+            return view('vacancy.index', compact('filtrVacancies', 'errorMessage'));
+        } catch (\Exception $e) {
+            Log::error(message: 'Hech qanday vacancy topilmadi:' . ' ' . $e->getMessage() . ' ' . 'Xato qatori' . ' ' . $e->getLine());
+            return redirect()->route('vacancy.index')->with('error', 'No found data!');
         }
     }
 }

@@ -50,6 +50,6 @@ class User extends Authenticatable
 
     public function vacancies(): HasMany
     {
-        return $this->hasMany(Vacancy::class, 'user_id', 'id' );
+        return $this->hasMany(Vacancy::class);
     }
 }

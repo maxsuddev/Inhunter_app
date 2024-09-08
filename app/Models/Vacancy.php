@@ -25,23 +25,23 @@ class Vacancy extends Model
 
 public function user(): BelongsTo
 {
-    return $this->belongsTo(User::class, 'user_id','id');
+    return $this->belongsTo(User::class);
 }
 
 
 public function category(): BelongsTo
 {
-    return $this->belongsTo(Category::class,'category_id','id');
+    return $this->belongsTo(Category::class);
 }
 
 
 public function company(): BelongsTo
 {
-    return $this->belongsTo(Company::class,'company_id','id');
+    return $this->belongsTo(Company::class);
 }
 
 public function candidate(): BelongsTo
 {
-    return $this->belongsTo(Candidates::class,'candidate_id','id');
+    return $this->belongsTo(Candidates::class);
 }
 }

@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CandidateRequest;
 use App\Interfaces\CandidateInterface;
+use App\Models\App;
 use App\Models\Candidates;
+use App\Models\Language;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class CandidateController extends Controller
 {
-    protected CandidateInterface $candidate;
+    protected CandidateInterface $candidateRepository;
 
     public function __construct(CandidateInterface $candidateRepository)
     {
-        $this->candidate = $candidateRepository;
+        $this->candidateRepository = $candidateRepository;
     }
     /**
      * Display a listing of the resource.
@@ -21,15 +24,15 @@ class CandidateController extends Controller
     public function index()
     {
         try {
-            $candidates = $this->candidate->all();
+            $candidates = $this->candidateRepository->all();
 
             $errorMessage = null;
-            if(is_string($candidates)) {
+            if (is_string($candidates)) {
                 $errorMessage = $candidates;
             }
             return view('candidate.index', compact('candidates', 'errorMessage'));
-        }catch (\Exception $e){
-            Log::error(message: 'Hech qanday nomzod topilmadi:' .' '. $e->getMessage() .' '. 'Xato qatori'.' ' . $e->getLine());
+        } catch (\Exception $e) {
+            Log::error(message: 'Hech qanday nomzod topilmadi:' . ' ' . $e->getMessage() . ' ' . 'Xato qatori' . ' ' . $e->getLine());
             return  redirect()->route('candidate.index')->with('error', 'No se han encontrado nomzod!');
         }
     }
@@ -39,15 +42,27 @@ class CandidateController extends Controller
      */
     public function create()
     {
-        //
+        $languages = Language::all();
+        $apps = App::all();
+        $maritalStates = Candidates::getMaritalStates();
+        $gender = Candidates::getGenderOptions();
+
+
+        return view('candidate.create', compact('languages', 'apps', 'maritalStates', 'gender'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CandidateRequest $request)
     {
-        //
+        try {
+            $this->candidateRepository->create($request->all());
+            return redirect()->route('candidate.index')->with('success', 'Candidate created successfully!');
+        } catch (\Exception $e) {
+            Log::error('Hech qanday candidate qoshilmadi: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'No added data! Place try again.');
+        }
     }
 
     /**

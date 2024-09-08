@@ -23,6 +23,7 @@
                   <th>email</th>
                     <th>role</th>
                   <th data-type="date" data-format="YYYY/DD/MM">Created User</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -34,6 +35,8 @@
                     <td>{{$user->email}}</td>
                     <td>userRole</td>
                   <td>{{$user->created_at}}</td>
+                  <td> <a href="{{route('user.show',['user' => $user->id])}}"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a></td>
+
                 </tr>
               @endforeach
 

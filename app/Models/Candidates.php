@@ -16,6 +16,7 @@ class Candidates extends Model
         'phone_number',
         'address',
         'gender',
+        'is_student',
         'university_place',
         'marital_state',
         'last_work',
@@ -40,5 +41,36 @@ class Candidates extends Model
     public function vacancies(): HasMany
     {
         return $this->hasMany(Vacancy::class, 'company_id','id');
+    }
+
+
+    public static function getStatusOptions()
+    {
+        $status = ['new', 'interview', 'archive', 'hired'];
+
+        return array_map(function ($status) {
+            return ucfirst($status);
+        }, array_combine($status, $status));
+
+    }
+
+
+
+    public static function getGenderOptions()
+    {
+        $gender = ['man', 'woman'];
+
+        return array_map(function ($gender) {
+            return ucfirst($gender);
+        }, array_combine($gender,$gender));
+    }
+
+    public static function getMaritalStates(): array
+    {
+        $maritalStates = ['married', 'no_married', 'divorce', 'widow'];
+
+        return array_map(function ($state) {
+            return ucfirst(str_replace('_', ' ', $state));
+        }, array_combine($maritalStates, $maritalStates));
     }
 }

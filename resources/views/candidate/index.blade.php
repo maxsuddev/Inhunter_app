@@ -3,7 +3,15 @@
 @section('page', 'Candidates Table')
 @section('content')
 
-
+    <div class="mb-3 align-right">
+        <a href="{{ route('candidate.create') }}" class="btn btn-primary"><i class="bi bi-database-add me-1"></i>Add candidate</a>
+    </div>
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <section class="section">
         <div class="row">
             <div class="col-lg-12">

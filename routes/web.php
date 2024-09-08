@@ -22,6 +22,7 @@ Route::get('/dashboard', function () {
 
 Route::controller(UserController::class)->group(function () {
     Route::get('/users', 'index')->name('users.index');
+    Route::get('/user{user}', 'show')->name('user.show');
 });
 
 Route::controller(AuthController::class)->group(function () {
@@ -40,7 +41,9 @@ Route::controller(PermissionController::class)->group(function () {
 
 Route::controller(CandidateController::class)->group(function () {
     Route::get('/candidate', 'index')->name('candidate.index');
+    Route::get('candidate/create', 'create')->name('candidate.create');
     Route::get('candidate/{candidate}', 'show')->name('candidate.show');
+    Route::post('candidate', 'store')->name('candidate.store');
 });
 
 

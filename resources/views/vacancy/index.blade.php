@@ -12,6 +12,16 @@
           <div class="card-body">
             <h5 class="card-title">Users Tables</h5>
 
+            <form method="GET" action="{{ route('vacancy.index') }}">
+              <div class="mb-3">
+                  <label for="stateFilter" class="form-label">Filter by State</label>
+                  <select id="stateFilter" name="state" class="form-select" onchange="this.form.submit()">
+                      <option value="open_vacancy" {{ request('state') == 'open_vacancy' ? 'selected' : '' }}>Open</option>
+                      <option value="close_vacancy" {{ request('state') == 'close_vacancy' ? 'selected' : '' }}>Closed</option>
+                      <option value="cancel_vacancy" {{ request('state') == 'cancel_vacancy' ? 'selected' : '' }}>Cancelled</option>
+                  </select>
+              </div>
+          </form>
             <!-- Table with stripped rows -->
             <table class="table datatable">
               <thead>
@@ -31,7 +41,7 @@
                 </tr>
               </thead>
               <tbody>
-              @foreach($vacancies as $vacancy)
+              @foreach($filtrVacancies as $vacancy)
 
                 <tr>
                   <td>{{$vacancy->id}}</td>
