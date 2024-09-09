@@ -15,6 +15,13 @@ class Category extends Model
       'is_active',
     ];
 
+    public static function is_active(){
+      $is_active = ['active', 'inactive'];
+
+        return array_map(function ($status) {
+            return ucfirst($status);
+        }, array_combine($is_active, $is_active));
+    }
 
     public function vacancies():HasMany
     {

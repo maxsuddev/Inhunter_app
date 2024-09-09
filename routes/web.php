@@ -51,12 +51,18 @@ Route::controller(CompanyController::class)->group(function () {
    Route::get('/company', 'index')->name('company.index');
    Route::get('company/create', 'create')->name('company.create');
    Route::post('company', 'store')->name('company.store');
+   Route::get('company/{company}', 'show')->name('company.show');
+   Route::put('company/{id}', 'edit')->name('company.edit');
+   Route::delete('company/{company}', 'delete')->name('company.delete');
 });
 
 Route::controller(CategoryController::class)->group(function () {
    Route::get('/category', 'index')->name('category.index');
    Route::get('category/create', 'create')->name('category.create');
    Route::post('category', 'store')->name('category.store');
+   Route::get('category/{category}', 'show')->name('category.show');
+   Route::put('category{id}', 'edit')->name('category.edit');
+   Route::delete('category/{category}', 'delete')->name('category.delete');
 });
 
 Route::controller(VacancyController::class)->group(function () {

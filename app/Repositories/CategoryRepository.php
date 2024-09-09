@@ -12,7 +12,7 @@ class CategoryRepository implements CategoryInterface
     public function all(): Collection|string
     {
         $candidate = Category::all();
-        if($candidate->isEmpty()){
+        if ($candidate->isEmpty()) {
             return "No User Found";
         }
 
@@ -23,16 +23,19 @@ class CategoryRepository implements CategoryInterface
     public function create(array $request)
     {
         return Category::create($request);
-
     }
 
     public function delete(int $id)
     {
-        // TODO: Implement deletePermission() method.
+        $category = Category::find($id);
+        $category->delete();
+        return $category;
     }
 
     public function update(array $request, int $id)
     {
-        // TODO: Implement updatePermission() method.
+        $category = Category::find($id);
+        $category->update($request);
+        return $category;
     }
 }

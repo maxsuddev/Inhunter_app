@@ -23,6 +23,7 @@ class CategoryRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
+            'is_active' => 'nullable'
         ];
     }
 }

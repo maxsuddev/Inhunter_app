@@ -21,16 +21,21 @@ class CandidateController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
             $candidates = $this->candidateRepository->all();
+            $status = $request->input('status', 'new');
+
+            $filtrCandidates = $candidates->filter(function ($candidate) use ($status) {
+                return $candidate->status === $status;
+            });
 
             $errorMessage = null;
             if (is_string($candidates)) {
                 $errorMessage = $candidates;
             }
-            return view('candidate.index', compact('candidates', 'errorMessage'));
+            return view('candidate.index', compact('filtrCandidates', 'errorMessage'));
         } catch (\Exception $e) {
             Log::error(message: 'Hech qanday nomzod topilmadi:' . ' ' . $e->getMessage() . ' ' . 'Xato qatori' . ' ' . $e->getLine());
             return  redirect()->route('candidate.index')->with('error', 'No se han encontrado nomzod!');

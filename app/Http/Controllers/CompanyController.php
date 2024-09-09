@@ -34,6 +34,23 @@ class CompanyController extends Controller
         }
     }
 
+    public function show(Company $company)
+    {
+        return view('company.show', compact('company'));
+
+    }
+
+
+    public function edit(CompanyRequest $request, $company){
+        try {
+            $this->companyRepository->update($request->all(), $company);
+            return redirect()->route('company.index')->with('success', 'Company update successfully!');
+        }catch (\Exception $e){
+            Log::error('Hech qanday kanpanya yangilanmadi: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'No edit data! Place try again.');
+        }
+    }
+
     public function create()
     {
         return view('company.create');
@@ -49,4 +66,18 @@ class CompanyController extends Controller
             return redirect()->back()->with('error', 'No added data! Place try again.');
         }
     }
+
+    public function delete($id)
+    {
+        try {
+            $this->companyRepository->delete($id);
+            return redirect()->route('company.index')->with('success', 'Company delete successfully!');
+        }catch (\Exception $e){
+            Log::error('Hech qanday kanpanya o\'chirilmadi: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'No delete data! Place try again.');
+        }
+    }
+
+
+    
 }

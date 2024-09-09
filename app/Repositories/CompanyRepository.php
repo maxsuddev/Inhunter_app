@@ -12,7 +12,7 @@ class CompanyRepository implements CompanyInterface
     public function all(): Collection|string
     {
         $candidate = Company::all();
-        if($candidate->isEmpty()){
+        if ($candidate->isEmpty()) {
             return "No Company Found";
         }
 
@@ -23,16 +23,18 @@ class CompanyRepository implements CompanyInterface
     public function create(array $request)
     {
         return Company::create($request);
-
     }
 
-    public function delete(int $id)
-    {
-        // TODO: Implement deletePermission() method.
+    public function delete(int $id) {
+        $company = Company::find($id);
+        $company->delete();
+        return $company;
     }
 
     public function update(array $request, int $id)
     {
-        // TODO: Implement updatePermission() method.
+        $company = Company::find($id);
+        $company->update($request);
+        return $company;
     }
 }

@@ -31,6 +31,7 @@
                   <th>Owner Name</th>
                     <th>Phone</th>
                   <th data-type="date" data-format="YYYY/DD/MM">Created at</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -42,6 +43,8 @@
                     <td>{{$company->owner_name}}</td>
                     <td>{{$company->phone_number}}</td>
                     <td>{{$company->created_at}}</td>
+                    <td> <a href="{{route('company.show',['company' => $company->id])}}"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a></td>
+
                 </tr>
               @endforeach
 
