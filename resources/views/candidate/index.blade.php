@@ -25,11 +25,13 @@
                                     <option value="new" {{ request('status') == 'new' ? 'selected' : '' }}>New</option>
                                     <option value="interview" {{ request('status') == 'interview' ? 'selected' : '' }}>Interview</option>
                                     <option value="archive" {{ request('status') == 'archive' ? 'selected' : '' }}>Archive</option>
+                                    <option value="working" {{ request('status') == 'working' ? 'selected' : '' }}>Working</option>
+
                                     <option value="hired" {{ request('status') == 'hired' ? 'selected' : '' }}>Done</option>
                                 </select>
                             </div>
                         </form>
-                        <!-- Table with stripped rows -->   
+                        <!-- Table with stripped rows -->
                         <table class="table datatable">
                             <thead>
                             <tr>
@@ -45,8 +47,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @if(!is_string($filtrCandidates))
-                            @foreach($filtrCandidates as $candidate)
+                            @if(!is_string($filterCandidates))
+                            @foreach($filterCandidates as $candidate)
                             <tr>
                                 <td>{{$candidate->id}}</td>
                                 <td>{{$candidate->full_name}}</td>

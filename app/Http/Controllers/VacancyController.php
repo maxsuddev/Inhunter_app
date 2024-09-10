@@ -21,7 +21,7 @@ class VacancyController extends Controller
             $vacancies = $this->vacancyRepository->all();
             $state = $request->input('state', 'open_vacancy');
 
-            $filtrVacancies = $vacancies->filter(function ($vacancy) use ($state) {
+            $filterVacancies = $vacancies->filter(function ($vacancy) use ($state) {
                 return $vacancy->state === $state;
             });
 
@@ -30,7 +30,7 @@ class VacancyController extends Controller
                 $errorMessage = $vacancies;
             }
 
-            return view('vacancy.index', compact('filtrVacancies', 'errorMessage'));
+            return view('vacancy.index', compact('filterVacancies', 'errorMessage'));
         } catch (\Exception $e) {
             Log::error(message: 'Hech qanday vacancy topilmadi:' . ' ' . $e->getMessage() . ' ' . 'Xato qatori' . ' ' . $e->getLine());
             return redirect()->route('vacancy.index')->with('error', 'No found data!');

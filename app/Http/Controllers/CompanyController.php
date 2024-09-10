@@ -41,7 +41,7 @@ class CompanyController extends Controller
     }
 
 
-    public function edit(CompanyRequest $request, $company){
+    public function update(CompanyRequest $request, $company){
         try {
             $this->companyRepository->update($request->all(), $company);
             return redirect()->route('company.index')->with('success', 'Company update successfully!');
@@ -79,5 +79,5 @@ class CompanyController extends Controller
     }
 
 
-    
+
 }

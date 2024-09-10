@@ -14,18 +14,14 @@ class VacancySeeder extends Seeder
     public function run(): void
     {
      Vacancy::create([
-         'user_id' => 1,
          'company_id' => 1,
          'category_id' => 1,
-         'candidate_id' => 2,
          'name' => 'web designer',
      ]) ;
 
         Vacancy::create([
-            'user_id' => 1,
             'company_id' => 2,
             'category_id' => 3,
-            'candidate_id' => 1,
             'name' => 'Truck driver',
         ]) ;
     }

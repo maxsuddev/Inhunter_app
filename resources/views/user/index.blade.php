@@ -35,8 +35,13 @@
                     <td>{{$user->email}}</td>
                     <td>userRole</td>
                   <td>{{$user->created_at}}</td>
-                  <td> <a href="{{route('user.show',['user' => $user->id])}}"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a></td>
-
+                    <td>
+                        @if(auth()->check() && auth()->user()->id === $user->id)
+                            <a href="{{ route('user.show', ['user' => $user->id]) }}">
+                                <span class="badge rounded-pill bg-primary p-2 ms-2">View all</span>
+                            </a>
+                        @endif
+                    </td>
                 </tr>
               @endforeach
 

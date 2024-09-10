@@ -64,7 +64,7 @@ class CategoryController extends Controller
     }
 
 
-    public function edit(CategoryRequest $request, $category)
+    public function update(CategoryRequest $request, $category)
     {
 
         try {

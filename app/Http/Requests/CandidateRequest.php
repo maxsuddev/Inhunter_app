@@ -27,16 +27,17 @@ class CandidateRequest extends FormRequest
             'phone_number' => 'required',
             'address' => 'required',
             'university_place' => 'nullable',
-            'last_work' => 'nullable',
-            'birthday' => 'nullable',
-            'positive_skills' => 'nullable',
-            'language_id' =>'nullable',
-            'marital_state' => 'nullable',
+            'last_work' => 'required',
+            'birthday' => 'required',
+            'positive_skills' => 'required',
+            'language_id' =>'required',
+            'marital_state' => 'required',
             'gender' => 'required',
             'is_student' => 'nullable',
-            'app_id' =>'nullable',
+            'app_id' =>'required',
             'voice_path' => 'nullable|file|mimes:ogg,mp3,wav',
-            'photo_path' => 'nullable|file|mimes:jpg,jpeg,png'
+            'photo_path' => 'nullable|file|mimes:jpg,jpeg,png',
+            'status' =>'nullable',
         ];
     }
 }

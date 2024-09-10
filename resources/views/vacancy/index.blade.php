@@ -17,6 +17,7 @@
                   <label for="stateFilter" class="form-label">Filter by State</label>
                   <select id="stateFilter" name="state" class="form-select" onchange="this.form.submit()">
                       <option value="open_vacancy" {{ request('state') == 'open_vacancy' ? 'selected' : '' }}>Open</option>
+                      <option value="working_vacancy" {{ request('state') == 'working_vacancy' ? 'selected' : '' }}>Working</option>
                       <option value="close_vacancy" {{ request('state') == 'close_vacancy' ? 'selected' : '' }}>Closed</option>
                       <option value="cancel_vacancy" {{ request('state') == 'cancel_vacancy' ? 'selected' : '' }}>Cancelled</option>
                   </select>
@@ -41,15 +42,15 @@
                 </tr>
               </thead>
               <tbody>
-              @foreach($filtrVacancies as $vacancy)
+              @foreach($filterVacancies as $vacancy)
 
                 <tr>
                   <td>{{$vacancy->id}}</td>
                   <td>{{$vacancy->name}}</td>
-                  <td>{{$vacancy->user->name}}</td>
+                  <td>{{$vacancy->user->name ?? ''}}</td>
                   <td>{{$vacancy->company->name}}</td>
                     <td>{{$vacancy->category->name}}</td>
-                    <td>{{$vacancy->candidate->full_name}}</td>
+                    <td>{{$vacancy->candidate->full_name ?? ''}}</td>
                     <td>{{$vacancy->state}}</td>
 
                     <td>{{$vacancy->created_at}}</td>

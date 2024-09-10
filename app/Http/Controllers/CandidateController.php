@@ -27,15 +27,15 @@ class CandidateController extends Controller
             $candidates = $this->candidateRepository->all();
             $status = $request->input('status', 'new');
 
-            $filtrCandidates = $candidates->filter(function ($candidate) use ($status) {
+            $filterCandidates = $candidates->filter(function ($candidate) use ($status) {
                 return $candidate->status === $status;
             });
 
             $errorMessage = null;
             if (is_string($candidates)) {
-                $errorMessage = $candidates;
+                $errorMessage = $filterCandidates;
             }
-            return view('candidate.index', compact('filtrCandidates', 'errorMessage'));
+            return view('candidate.index', compact('filterCandidates', 'errorMessage'));
         } catch (\Exception $e) {
             Log::error(message: 'Hech qanday nomzod topilmadi:' . ' ' . $e->getMessage() . ' ' . 'Xato qatori' . ' ' . $e->getLine());
             return  redirect()->route('candidate.index')->with('error', 'No se han encontrado nomzod!');
@@ -75,7 +75,12 @@ class CandidateController extends Controller
      */
     public function show(Candidates $candidate)
     {
-        return view('candidate.show', compact('candidate'));
+        $languages = Language::all();
+        $apps = App::all();
+        $maritalStates = Candidates::getMaritalStates();
+        $gender = Candidates::getGenderOptions();
+
+        return view('candidate.show', compact('candidate', 'languages', 'apps', 'maritalStates', 'gender'));
     }
 
     /**
@@ -89,9 +94,15 @@ class CandidateController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CandidateRequest $request, string $id)
     {
-        //
+        try {
+            $this->candidateRepository->update($request->all(), $id);
+            return redirect()->route('candidate.index')->with('success', 'Candidate update successfully!');
+        } catch (\Exception $e) {
+            Log::error('Hech qanday candidate yangilanmadi: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'No edit data! Place try again.');
+        }
     }
 
     /**

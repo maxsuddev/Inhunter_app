@@ -6,12 +6,12 @@
         <section class="section profile">
             <div class="row">
                 <div class="col-xl-4">
-
                     <div class="card">
                         <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                             <img src="{{asset('storage/'.$candidate->photo_path)}}" alt="Profile" class="rounded-circle">
                             <h2>{{$candidate->full_name}}</h2>
-                            <h3>Web Designer</h3>
+
+                            <h3>{{ucfirst($candidate->status)}}</h3>
                             <div class="social-links mt-2">
                                 <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
                                 <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
@@ -31,11 +31,11 @@
                             <ul class="nav nav-tabs nav-tabs-bordered">
 
                                 <li class="nav-item">
-                                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Edit</button>
                                 </li>
 
                                 <li class="nav-item">
-                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">All</button>
                                 </li>
 
                                 <li class="nav-item">
@@ -50,6 +50,216 @@
                             <div class="tab-content pt-2">
 
                                 <div class="tab-pane fade show active profile-overview" id="profile-overview">
+
+
+                                      <!-- Profile Edit Form -->
+                                      <form action="{{ route('candidate.update', $candidate->id) }}" method="POST">
+                                          @csrf
+                                          @method('PUT')
+                                        <div class="row mb-3">
+                                            <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input name="full_name" type="text" class="form-control" id="full_name" value="{{$candidate->full_name}}">
+                                            </div>
+                                        </div>
+                                        @error('full_name')
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            {{ $message}}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                        @enderror
+
+                                        <div class="row mb-3">
+                                            <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input name="phone_number" type="text" class="form-control" id="Phone" value="{{ $candidate->phone_number}}">
+                                            </div>
+                                        </div>
+                                        @error('phone_number')
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            {{ $message}}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                        @enderror
+
+
+                                        <div class="row mb-3">
+                                            <label for="company" class="col-md-4 col-lg-3 col-form-label">Address</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input name="address" type="text" class="form-control" id="address" value="{{$candidate->address}}">
+                                            </div>
+                                        </div>
+                                        @error('address')
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            {{ $message}}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                        @enderror
+
+                                        <div class="row mb-3">
+                                            <label for="Country" class="col-md-4 col-lg-3 col-form-label">University place</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input name="university_place" type="text" class="form-control" id="Country" value="{{$candidate->university_place}}">
+                                            </div>
+                                        </div>
+                                        @error('university_place')
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            {{ $message}}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                        @enderror
+
+
+                                        <div class="row mb-3">
+                                            <label for="Address" class="col-md-4 col-lg-3 col-form-label">Last work</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input name="last_work" type="text" class="form-control" id="last_work" value="{{ $candidate->last_work }}">
+                                            </div>
+                                        </div>
+                                          @error('last_work')
+                                          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                              {{ $message}}
+                                              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                          </div>
+                                          @enderror
+
+
+                                          <div class="row mb-3">
+                                              <label for="Address" class="col-md-4 col-lg-3 col-form-label">Birthday</label>
+                                              <div class="col-md-8 col-lg-9">
+                                                  <input name="birthday" type="date" class="form-control" id="last_work" value="{{ $candidate->birthday }}">
+                                              </div>
+                                          </div>
+                                          @error('birthday')
+                                          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                              {{ $message}}
+                                              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                          </div>
+                                          @enderror
+
+
+
+                                          <div class="row mb-3">
+                                              <label for="Address" class="col-md-4 col-lg-3 col-form-label">Last work</label>
+                                              <div class="col-md-8 col-lg-9">
+                                                  <input name="positive_skills" type="text" class="form-control" id="last_work" value="{{ $candidate->positive_skills }}">
+                                              </div>
+                                          </div>
+                                          @error('positive_skills')
+                                          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                              {{ $message}}
+                                              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                          </div>
+                                          @enderror
+
+                                          <div class="row mb-3">
+                                              <label for="Address" class="col-md-4 col-lg-3 col-form-label">Languages</label>
+                                              <div class="col-md-8 col-lg-9">
+                                                  <select class="form-control" aria-label="Default select example" id="language_id"  name="language_id">
+                                                      <option selected>Languages</option>
+                                                      @foreach($languages as $language)
+                                                          <option value="{{ $language->id }}">{{$language->name}}</option>
+                                                      @endforeach
+                                                  </select>
+                                                  @error('language_id')
+                                                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                      {{ $message}}
+                                                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                  </div>
+                                                  @enderror
+                                              </div>
+                                          </div>
+
+                                          <div class="row mb-3">
+                                              <label for="Address" class="col-md-4 col-lg-3 col-form-label">Apps</label>
+                                              <div class="col-md-8 col-lg-9">
+                                                  <select class="form-control" aria-label="Default select example" id="app_id"  name="app_id">
+                                                      <option selected>Apps</option>
+                                                      @foreach($apps as $app)
+                                                          <option value="{{ $app->id }}">{{$app->name}}</option>
+                                                      @endforeach
+                                                  </select>
+                                                  @error('app_id')
+                                                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                      {{ $message}}
+                                                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                  </div>
+                                                  @enderror
+                                              </div>
+                                          </div>
+
+                                          <div class="row mb-3">
+                                              <label for="Address" class="col-md-4 col-lg-3 col-form-label">Marital State</label>
+                                              <div class="col-md-8 col-lg-9">
+                                                  <select class="form-select" aria-label="Default select example" id="marital_state"  name="marital_state">
+                                                      <option selected>Marital state</option>
+                                                      @foreach($maritalStates as $key => $value)
+                                                          <option value="{{ $key }}">{{$value}}</option>
+                                                      @endforeach
+                                                  </select>
+                                              </div>
+                                              @error('marital_state')
+                                              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                  {{ $message}}
+                                                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                              </div>
+                                              @enderror
+                                          </div>
+
+
+                                          <div class="row mb-3">
+                                              <label for="Address" class="col-md-4 col-lg-3 col-form-label">Gender</label>
+                                              <div class="col-md-8 col-lg-9">
+                                                  <select class="form-select" aria-label="Default select example" id="app_id"  name="gender">
+                                                      <option selected>Gender</option>
+                                                      @foreach($gender as $key => $value)
+                                                          <option value="{{ $key }}">{{$value}}</option>
+                                                      @endforeach
+                                                  </select>
+                                                  @error('gender')
+                                                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                      {{ $message}}
+                                                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                  </div>
+                                                  @enderror
+                                              </div>
+                                          </div>
+                                          <fieldset class="row mb-3">
+                                              <legend class="col-md-4 col-lg-3 col-form-label">Is Student</legend>
+                                              <div class="col-md-8 col-lg-9">
+                                                  <div class="form-check me-3">
+                                                      <input class="form-check-input" type="radio" name="is_student" id="is_student_yes" value="1">
+                                                      <label class="form-check-label" for="is_student_yes">
+                                                          Yes
+                                                      </label>
+                                                  </div>
+                                                  <div class="form-check">
+                                                      <input class="form-check-input" type="radio" name="is_student" id="is_student_no" value="0">
+                                                      <label class="form-check-label" for="is_student_no">
+                                                          No
+                                                      </label>
+                                                  </div>
+                                              </div>
+                                          </fieldset>
+                                          @error('is_student')
+                                          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                              {{ $message}}
+                                              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                          </div>
+                                          @enderror
+
+
+
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                                        </div>
+                                    </form><!-- End Profile Edit Form -->
+
+
+                                </div>
+
+                                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+
                                     <h5 class="card-title">About</h5>
                                     <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
 
@@ -92,185 +302,9 @@
 
                                 </div>
 
-                                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
-                                    <!-- Profile Edit Form -->
-                                    <form>
-                                        <div class="row mb-3">
-                                            <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <img src="{{asset('storage/'.$candidate->photo_path)}}" alt="Profile">
-                                                <div class="pt-2">
-                                                    <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                                                    <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="row mb-3">
-                                            <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="fullName" type="text" class="form-control" id="fullName" value="Kevin Anderson">
-                                            </div>
-                                        </div>
 
-                                        <div class="row mb-3">
-                                            <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <textarea name="about" class="form-control" id="about" style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="company" class="col-md-4 col-lg-3 col-form-label">Company</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="company" type="text" class="form-control" id="company" value="Lueilwitz, Wisoky and Leuschke">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="job" type="text" class="form-control" id="Job" value="Web Designer">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="country" type="text" class="form-control" id="Country" value="USA">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="address" type="text" class="form-control" id="Address" value="A108 Adam Street, New York, NY 535022">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="phone" type="text" class="form-control" id="Phone" value="(436) 486-3538 x29071">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="email" type="email" class="form-control" id="Email" value="k.anderson@example.com">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="twitter" type="text" class="form-control" id="Twitter" value="https://twitter.com/#">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="facebook" type="text" class="form-control" id="Facebook" value="https://facebook.com/#">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="instagram" type="text" class="form-control" id="Instagram" value="https://instagram.com/#">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="linkedin" type="text" class="form-control" id="Linkedin" value="https://linkedin.com/#">
-                                            </div>
-                                        </div>
-
-                                        <div class="text-center">
-                                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                                        </div>
-                                    </form><!-- End Profile Edit Form -->
-
-                                </div>
-
-                                <div class="tab-pane fade pt-3" id="profile-settings">
-
-                                    <!-- Settings Form -->
-                                    <form>
-
-                                        <div class="row mb-3">
-                                            <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email Notifications</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="changesMade" checked>
-                                                    <label class="form-check-label" for="changesMade">
-                                                        Changes made to your account
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="newProducts" checked>
-                                                    <label class="form-check-label" for="newProducts">
-                                                        Information on new products and services
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="proOffers">
-                                                    <label class="form-check-label" for="proOffers">
-                                                        Marketing and promo offers
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="securityNotify" checked disabled>
-                                                    <label class="form-check-label" for="securityNotify">
-                                                        Security alerts
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="text-center">
-                                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                                        </div>
-                                    </form><!-- End settings Form -->
-
-                                </div>
-
-                                <div class="tab-pane fade pt-3" id="profile-change-password">
-                                    <!-- Change Password Form -->
-                                    <form>
-
-                                        <div class="row mb-3">
-                                            <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="password" type="password" class="form-control" id="currentPassword">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="newpassword" type="password" class="form-control" id="newPassword">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="renewpassword" type="password" class="form-control" id="renewPassword">
-                                            </div>
-                                        </div>
-
-                                        <div class="text-center">
-                                            <button type="submit" class="btn btn-primary">Change Password</button>
-                                        </div>
-                                    </form><!-- End Change Password Form -->
-
-                                </div>
 
                             </div><!-- End Bordered Tabs -->
 

@@ -15,14 +15,14 @@ return new class extends Migration
             $table->id();
 
             //foreign
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('company_id')->constrained('companies')->ondelete('cascade');
             $table->foreignId('category_id')->constrained('categories')->ondelete('cascade');
-            $table->foreignId('candidate_id')->constrained('candidates')->ondelete('cascade');
+            $table->foreignId('candidate_id')->nullable()->constrained('candidates')->ondelete('cascade');
 
 
             $table->string('name');
-            $table->enum('state', ['open_vacancy', 'close_vacancy', 'cancel_vacancy'])->default('open_vacancy');
+            $table->enum('state', ['open_vacancy', 'working_vacancy','close_vacancy', 'cancel_vacancy'])->default('open_vacancy');
             $table->timestamp('opened_at')->nullable();
             $table->timestamp('closed_at')->nullable();
             $table->timestamps();

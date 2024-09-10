@@ -44,6 +44,7 @@ Route::controller(CandidateController::class)->group(function () {
     Route::get('candidate/create', 'create')->name('candidate.create');
     Route::get('candidate/{candidate}', 'show')->name('candidate.show');
     Route::post('candidate', 'store')->name('candidate.store');
+    Route::put('candidate/{candidate}', 'update')->name('candidate.update');
 });
 
 
@@ -52,7 +53,7 @@ Route::controller(CompanyController::class)->group(function () {
    Route::get('company/create', 'create')->name('company.create');
    Route::post('company', 'store')->name('company.store');
    Route::get('company/{company}', 'show')->name('company.show');
-   Route::put('company/{id}', 'edit')->name('company.edit');
+   Route::put('company/{id}', 'update')->name('company.edit');
    Route::delete('company/{company}', 'delete')->name('company.delete');
 });
 
@@ -61,7 +62,7 @@ Route::controller(CategoryController::class)->group(function () {
    Route::get('category/create', 'create')->name('category.create');
    Route::post('category', 'store')->name('category.store');
    Route::get('category/{category}', 'show')->name('category.show');
-   Route::put('category{id}', 'edit')->name('category.edit');
+   Route::put('category{id}', 'update')->name('category.edit');
    Route::delete('category/{category}', 'delete')->name('category.delete');
 });
 
