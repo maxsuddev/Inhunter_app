@@ -12,7 +12,7 @@
 
 
         <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('users.index')? '' : 'collapsed'  }}" href="{{route('users.index')}}">
+            <a class="nav-link {{ request()->routeIs('user.index')? '' : 'collapsed'  }}" href="{{route('user.index')}}">
                 <i class="ri-account-circle-fill"></i>
                 <span>User</span>
             </a>

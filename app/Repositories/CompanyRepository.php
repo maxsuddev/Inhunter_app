@@ -26,14 +26,14 @@ class CompanyRepository implements CompanyInterface
     }
 
     public function delete(int $id) {
-        $company = Company::find($id);
+        $company = Company::findOrFail($id);
         $company->delete();
         return $company;
     }
 
     public function update(array $request, int $id)
     {
-        $company = Company::find($id);
+        $company = Company::findOrFail($id);
         $company->update($request);
         return $company;
     }

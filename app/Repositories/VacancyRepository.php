@@ -20,9 +20,17 @@ class VacancyRepository implements VacancyInterface
     }
 
 
+    /**
+     */
     public function create(array $request)
     {
-        // TODO: Implement addPermission() method.
+        return Vacancy::create([
+            'name' => $request['name'],
+            'category_id' => $request['category_id'],
+            'company_id' => $request['company_id'],
+            'state' => $request['status'],
+            'opened_at' => now()
+            ]);
     }
 
     public function delete(int $id)

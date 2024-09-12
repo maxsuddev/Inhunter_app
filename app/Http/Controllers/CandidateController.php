@@ -25,21 +25,24 @@ class CandidateController extends Controller
     {
         try {
             $candidates = $this->candidateRepository->all();
-            $status = $request->input('status', 'new');
 
-            $filterCandidates = $candidates->filter(function ($candidate) use ($status) {
-                return $candidate->status === $status;
-            });
-
-            $errorMessage = null;
             if (is_string($candidates)) {
-                $errorMessage = $filterCandidates;
+                $filterCandidates = $candidates;
+                return view('candidate.index', compact('filterCandidates'));
+            }else {
+                $status = $request->input('status', 'new');
+
+                $filterCandidates = $candidates->filter(function ($candidate) use ($status) {
+                    return $candidate->status === $status;
+                });
+
+                return view('candidate.index', compact('filterCandidates'));
             }
-            return view('candidate.index', compact('filterCandidates', 'errorMessage'));
         } catch (\Exception $e) {
             Log::error(message: 'Hech qanday nomzod topilmadi:' . ' ' . $e->getMessage() . ' ' . 'Xato qatori' . ' ' . $e->getLine());
             return  redirect()->route('candidate.index')->with('error', 'No se han encontrado nomzod!');
         }
+
     }
 
     /**
@@ -47,8 +50,8 @@ class CandidateController extends Controller
      */
     public function create()
     {
-        $languages = Language::all();
-        $apps = App::all();
+        $languages = Language::all('id', 'name');
+        $apps = App::all('id', 'name');
         $maritalStates = Candidates::getMaritalStates();
         $gender = Candidates::getGenderOptions();
 

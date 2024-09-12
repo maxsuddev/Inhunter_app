@@ -13,7 +13,7 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-//        dd($request->all());
+
         try {
             if (!auth('web')->attempt(['email' => $request->email, 'password' => $request->password]))
             {

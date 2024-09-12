@@ -46,7 +46,7 @@ class CandidateRepository implements CandidateInterface
 
     public function update(array $request, int $id): Candidates|_IH_Candidates_C|array|null
     {
-        $candidate = Candidates::find($id);
+        $candidate = Candidates::findOrFail($id);
 
             $candidate->update([
                 'phone_number' => $request['phone_number'],

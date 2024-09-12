@@ -56,12 +56,13 @@ class UserController extends Controller
      * Display the specified resource.
      */
     public function show(User $user, Request $request) {
-        $user = User::findOrFail($user->id); // Foydalanuvchini ID bo'yicha topamiz
-        $state = $request->input('state', 'open_vacancy'); // Default to 'open_vacancy' if not provided
+        $user = User::findOrFail($user->id);
+        $state = $request->input('state', 'open_vacancy');
 
         $vacancies = Vacancy::where('user_id', $user->id)
                             ->where('state', $state)
                             ->get();
+
         return view('user.show', compact('user', 'vacancies'));
     }
 

@@ -27,14 +27,14 @@ class CategoryRepository implements CategoryInterface
 
     public function delete(int $id)
     {
-        $category = Category::find($id);
+        $category = Category::findOrFail($id);
         $category->delete();
         return $category;
     }
 
     public function update(array $request, int $id)
     {
-        $category = Category::find($id);
+        $category = Category::findOrFail($id);
         $category->update($request);
         return $category;
     }

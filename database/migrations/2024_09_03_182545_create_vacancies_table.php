@@ -22,7 +22,7 @@ return new class extends Migration
 
 
             $table->string('name');
-            $table->enum('state', ['open_vacancy', 'working_vacancy','close_vacancy', 'cancel_vacancy'])->default('open_vacancy');
+            $table->enum('state', ['open_vacancy', 'working_vacancy','close_vacancy', 'cancel_vacancy'])->nullable();
             $table->timestamp('opened_at')->nullable();
             $table->timestamp('closed_at')->nullable();
             $table->timestamps();

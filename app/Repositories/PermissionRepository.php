@@ -22,13 +22,13 @@ class PermissionRepository implements PermissionInterface
 
     public function delete(int$id): ?bool
     {
-        $permission = Permission::find($id);
+        $permission = Permission::findOrFail($id);
         return $permission->delete();
     }
 
     public function update(array$request, int$id): array|Permission|null
     {
-        $role = Permission::find($id);
+        $role = Permission::findOrFail($id);
         $role->update($request);
         return $role;
     }

@@ -8,7 +8,6 @@ use App\Models\Candidates;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-// Log fasadini import qilish
 
 class CandidatesController extends Controller
 {

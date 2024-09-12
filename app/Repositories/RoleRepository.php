@@ -35,7 +35,7 @@ class RoleRepository implements RoleInterface
      */
     public function update(array $request, int $id,): Role|array|null
     {
-        $role = Role::find($id);
+        $role = Role::findOrFail($id);
         $role->update($request);
         return $role;
 
@@ -47,7 +47,7 @@ class RoleRepository implements RoleInterface
      */
     public function delete(int $id): ?bool
     {
-        $role = Role::find($id);
+        $role = Role::findOrFail($id);
         return $role->delete();
     }
 }

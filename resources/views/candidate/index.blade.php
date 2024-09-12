@@ -60,7 +60,7 @@
                             </tr>
                             @endforeach  @else
                                 <tr>
-                                    <td>{{$candidates}}</td>
+                                    <td>{{$filterCandidates}}</td>
                                 </tr>
                             @endif
 
