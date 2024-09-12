@@ -17,16 +17,18 @@ class CandidatesController extends Controller
             $validatedData = $request->validate([
                 'telegram_id' => 'required|integer',
             ]);
+            $audio_path = null;
+            $photo_path = null;
             if ($request->hasFile('voice_path')) {
                 $file = $request->file('voice_path');
                 $fileName = md5(time() . $file->getClientOriginalName()) . '.' . $file->getClientOriginalExtension();
-                $validatedData['voice_path'] = $file->storeAs('Candidates/voices', $fileName);
+                $audio_path = $file->storeAs('Candidates/voices', $fileName);
             }
 
             if ($request->hasFile('photo_path')) {
                 $file = $request->file('photo_path');
                 $fileName = md5(time() . $file->getClientOriginalName()) . '.' . $file->getClientOriginalExtension();
-                $validatedData['photo_path'] = $file->storeAs('Candidates/photos', $fileName);
+                $photo_path = $file->storeAs('Candidates/photos', $fileName);
             }
 
             $language_id = str_replace(',', '', $request['languages']);
@@ -46,8 +48,8 @@ class CandidatesController extends Controller
                 'language_id' => $language_id,
                 'positive_skills' => $request['positive_skills'],
                 'app_id' => $app_id,
-                'voice_path' => $request['voice_path'] ?? null,
-                'photo_path' => $request['photo_path'] ?? null
+                'voice_path' => $audio_path,
+                'photo_path' => $photo_path
             ]);
 
             return response()->json([

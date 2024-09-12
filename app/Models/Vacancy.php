@@ -23,6 +23,8 @@ class Vacancy extends Model
 
 
 
+
+
 public function user(): BelongsTo
 {
     return $this->belongsTo(User::class);
@@ -44,4 +46,5 @@ public function candidate(): BelongsTo
 {
     return $this->belongsTo(Candidates::class);
 }
+
 }

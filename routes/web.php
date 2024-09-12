@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\StatisticController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VacancyController;
 use Illuminate\Support\Facades\Route;
@@ -78,11 +79,14 @@ Route::group(['middleware' => ['role:admin']], function () {
 //Vacancy
     Route::controller(VacancyController::class)->group(function () {
         Route::get('/vacancy', 'index')->name('vacancy.index');
+
         Route::get('vacancy/create', 'create')->name('vacancy.create');
         Route::post('vacancy', 'store')->name('vacancy.store');
         Route::get('vacancy/{vacancy}', 'show')->name('vacancy.show');
 
     });
+    Route::get('/vacancy/change-state/{vacancy}', [VacancyController::class, 'changeState'])->name('vacancy.changeState');
+
 
 });
 });

@@ -57,7 +57,7 @@ class UserController extends Controller
      */
     public function show(User $user, Request $request) {
         $user = User::findOrFail($user->id);
-        $state = $request->input('state', 'open_vacancy');
+        $state = $request->input('state', 'working_vacancy');
 
         $vacancies = Vacancy::where('user_id', $user->id)
                             ->where('state', $state)
