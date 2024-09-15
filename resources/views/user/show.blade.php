@@ -53,7 +53,6 @@
                                             <h5 class="card-title">Your Vacancies</h5>
                                             <!-- Filter Form -->
                                             <form method="GET" action="{{ route('user.show', $user->id) }}">
-                                                @csrf
                                                 <div class="mb-3">
                                                     <label for="stateFilter" class="form-label">Filter by State</label>
                                                     <div class=" justify-content-between" role="group">

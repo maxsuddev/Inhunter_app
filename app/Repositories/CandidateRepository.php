@@ -36,6 +36,7 @@ class CandidateRepository implements CandidateInterface
             'language_id' => $request['language_id'],
             'positive_skills' => $request['positive_skills'],
             'app_id' => $request['app_id'],
+            'status' => $request['status']
         ]);
     }
 

@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             LanguageSeeder::class,
             CompanySeeder::class,
             CategorySeeder::class,
-            VacancySeeder::class
+           // VacancySeeder::class
         ]);
     }
 }

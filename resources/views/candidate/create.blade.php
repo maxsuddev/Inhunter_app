@@ -205,6 +205,7 @@
                                         <label class="form-check-label" for="is_student_no">
                                             No
                                         </label>
+                                        <input type="hidden" name="status" value="new">
                                     </div>
                                 </div>
                             </fieldset>

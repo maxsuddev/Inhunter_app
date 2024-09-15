@@ -13,6 +13,7 @@ class VacancySeeder extends Seeder
      */
     public function run(): void
     {
+
      Vacancy::create([
          'state' => 'open_vacancy',
          'company_id' => 1,

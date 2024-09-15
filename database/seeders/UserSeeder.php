@@ -16,9 +16,21 @@ class UserSeeder extends Seeder
     {
 
 
-      $admin = User::create([
-            'name' => 'Dev User',
+        $admin1 =   User::create([
+            'name' => 'Developer',
             'email' => 'developer@example.com',
+            'password' => bcrypt('password'),
+        ]);
+
+        $admin =  User::create([
+          'name' => 'Admin',
+          'email' => 'admin@example.com',
+          'password' => bcrypt('password'),
+      ]);
+
+        User::create([
+            'name' => 'Test',
+            'email' => 'test@example.com',
             'password' => bcrypt('password'),
         ]);
 
@@ -27,5 +39,6 @@ class UserSeeder extends Seeder
 
         $adminRole = Role::where('name', 'admin')->first();
         $admin->syncRoles($adminRole);
+        $admin1->syncRoles($adminRole);
      }
 }

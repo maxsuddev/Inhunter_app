@@ -2,18 +2,25 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Candidates extends Model
 {
+    use SoftDeletes;
+
+    /**
+     * @var int|mixed|string|null
+     */
+
     protected $table = 'candidates';
     protected $fillable = [
         'telegram_id',
         'full_name',
         'phone_number',
+        'user_id',
         'address',
         'gender',
         'is_student',

@@ -8,7 +8,7 @@ use App\Models\Candidates;
 use App\Models\Category;
 use App\Models\Company;
 use App\Models\Vacancy;
-use App\Services\StatisticService;
+use App\Services\VacancyService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\Log;
 class VacancyController extends Controller
 {
     protected VacancyInterface $vacancyRepository;
-    protected StatisticService $statisticService;
+    protected VacancyService $statisticService;
 
 
-    public function __construct(VacancyInterface $vacancyRepository,  StatisticService $statisticService)
+    public function __construct(VacancyInterface $vacancyRepository, VacancyService $statisticService)
     {
         $this->vacancyRepository = $vacancyRepository;
         $this->statisticService = $statisticService;
@@ -29,6 +29,7 @@ class VacancyController extends Controller
     {
         try {
             $vacancies = Vacancy::latest()->paginate(10);
+
             $state = $request->input('state', 'open_vacancy');
 
             $filterVacancies = $vacancies->filter(function ($vacancy) use ($state) {
@@ -40,11 +41,14 @@ class VacancyController extends Controller
             if (is_string($vacancies)) {
                 $errorMessage = $vacancies;
             }
-            // Optional: Get statistics if needed
-            $filter = $request->query('filter', 'today');
-            $stats = $this->statisticService->getStatistics($filter);
+            $stats = $this->statisticService->getStatistics();
 
-            return view('vacancy.index', compact('filterVacancies', 'stats', 'filter','errorMessage'));
+            if (is_string($stats)) {
+                return redirect()->back()->with('error', 'Failed to retrieve statistics: ' . $stats);
+            }
+
+
+            return view('vacancy.index', compact('filterVacancies', 'stats','errorMessage'));
         } catch (\Exception $e) {
             Log::error(message: 'Hech qanday vacancy topilmadi:' . ' ' . $e->getMessage() . ' ' . 'Xato qatori' . ' ' . $e->getLine());
             return redirect()->route('vacancy.index')->with('error', 'No found data!');
@@ -56,8 +60,8 @@ class VacancyController extends Controller
     {
         try {
             $vacancy = $this->vacancyRepository->create($request->all());
-            $vacancy_state = $request->input('status');
-            $this->statisticService->updateStatisticsOnVacancyUpdate($vacancy_state);
+            $newState = $request->input('status');
+            $this->statisticService->updateStatisticsOnVacancyUpdate(vacancyId:  $vacancy->id, newState:  $newState);
 
             return redirect()->route('vacancy.index')->with('success', 'Vacancy created successfully!');
         } catch (\Exception $e) {
@@ -79,10 +83,10 @@ class VacancyController extends Controller
 
 
     public function changeState(Vacancy $vacancy)
-    {   $vacancy_state = 'working_vacancy';
-        $this->statisticService->updateStatisticsOnVacancyUpdate($vacancy_state, $vacancy->state);
+    {   $newState = 'working_vacancy';
+        $this->statisticService->updateStatisticsOnVacancyUpdate( vacancyId: $vacancy->id, newState:  $newState, previousState:  $vacancy->state);
         $vacancy->user_id = Auth::id();
-        $vacancy->state = $vacancy_state;
+        $vacancy->state = $newState;
         $vacancy->save();
 
         return redirect()->back()->with('success', 'Vacancy state changed to working_vacancy.');

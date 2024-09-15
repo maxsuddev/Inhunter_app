@@ -4,13 +4,19 @@
 namespace App\Services;
 
 use App\Models\Statistic;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class StatisticService
+
+class VacancyService
 {
-    public function updateStatisticsOnVacancyUpdate($vacancy, $previousState = null): void
+    /**
+     * @param int $vacancyId
+     * @param string $newState
+     * @param string|null $previousState
+     * @return void
+     */
+    public function updateStatisticsOnVacancyUpdate(int$vacancyId, string$newState, string$previousState = null): void
     {
         try {
             $statistic = Statistic::first();
@@ -28,9 +34,11 @@ class StatisticService
                 ]);
             }
 
+            $this->logStateChange($vacancyId, $previousState, $newState);
+
             if ($previousState) {
                 $this->updateCount($statistic, $previousState, -1);
-            }            $this->updateCount($statistic, $vacancy, 1);
+            }            $this->updateCount($statistic, $newState, 1);
 
             $statistic->total_vacancies = $statistic->open_count + $statistic->working_count + $statistic->closed_count + $statistic->cancelled_count;
             $statistic->save();
@@ -94,44 +102,45 @@ class StatisticService
     }
 
 
-    /**
-     * Get statistics based on the filter.
-     *
-     * @param string $filter
-     * @return Model|null
-     */
-    public function getStatistics(string $filter): ?Model
+   public function getStatistics(): object|string
+   {
+       try {
+           $stats = Statistic::select('open_count', 'working_count', 'closed_count', 'cancelled_count', 'open_percentage', 'working_percentage', 'closed_percentage', 'cancelled_percentage')
+               ->first();
+
+           if (!$stats) {
+               return (object)[
+                   'open_count' => 0,
+                   'working_count' => 0,
+                   'closed_count' => 0,
+                   'cancelled_count' => 0,
+                   'open_percentage' => 0.00,
+                   'working_percentage' => 0.00,
+                   'closed_percentage' => 0.00,
+                   'cancelled_percentage' => 0.00,
+               ];
+           }
+
+           return $stats;
+       } catch (\Exception $e) {
+           Log::error('Statistikani olishda xato: ' . $e->getMessage());
+           return $e->getMessage();
+       }
+   }
+
+
+    private function logStateChange($vacancyId, $previousState, $newState): void
     {
         try {
-            $today = Carbon::today();
-            // Bu oy va yilning birinchi va oxirgi kuni
-            $startOfMonth = $today->copy()->startOfMonth();
-            $endOfMonth = $today->copy()->endOfMonth();
-            $startOfYear = $today->copy()->startOfYear();
-            $endOfYear = $today->copy()->endOfYear();
-
-            // Statistikani olish
-            $stats = Statistic::query();
-            switch ($filter) {
-                case 'today':
-                    $stats = $stats->whereDate('created_at', $today)->first();
-                    break;
-                case 'month':
-                    $stats = $stats->whereBetween('created_at', [$startOfMonth, $endOfMonth])->first();
-                    break;
-                case 'year':
-                    $stats = $stats->whereBetween('created_at', [$startOfYear, $endOfYear])->first();
-                    break;
-                default:
-                    $stats = $stats->first();
-                    break;
-            }
-
-            return $stats;
+            DB::table('vacancy_state_log')->insert([
+                'vacancy_id' => $vacancyId,
+                'previous_state' => $previousState,
+                'new_state' => $newState,
+                'changed_at' => now(),
+            ]);
         } catch (\Exception $e) {
-            // Xatoliklarni logga yozish
-            Log::error('Statistikani olishda xato: ' . $e->getMessage());
-            return null;
+            Log::error('State logga  yozishda xato: VACANCY' . $e->getMessage() . ' ' . $e->getFile() . ' qator ' . $e->getLine());
         }
     }
+
 }

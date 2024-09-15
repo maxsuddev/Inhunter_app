@@ -20,29 +20,17 @@
                     <div class="col-xxl-3 col-md-6">
                         <div class="card info-card sales-card">
 
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-
-                                    <li><a class="dropdown-item" href="{{ route('vacancy.index', ['filter' => 'today']) }}">Today</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('vacancy.index', ['filter' => 'month']) }}">This Month</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('vacancy.index', ['filter' => 'year']) }}">This Year</a></li>
-                                </ul>
-                            </div>
-
                             <div class="card-body">
-                                <h5 class="card-title">Opened <span>| Today</span></h5>
+                                <h5 class="card-title">Opened</h5>
 
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                         <i class="bi bi-cart"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>{{$stats->open_count}}</h6>
-                                        <span class="text-success small pt-1 fw-bold">{{ $stats->open_percentage}}%</span> <span
+
+                                        <h6>{{$stats->open_count ?? ''}}</h6>
+                                        <span class="text-success small pt-1 fw-bold">{{ $stats->open_percentage ?? ''}}%</span> <span
                                             class="text-muted small pt-2 ps-1">increase</span>
 
                                     </div>
@@ -56,29 +44,17 @@
                     <div class="col-xxl-3 col-md-6">
                         <div class="card info-card sales-card">
 
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-
-                                    <li><a class="dropdown-item" href="{{ route('vacancy.index', ['filter' => 'today']) }}">Today</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('vacancy.index', ['filter' => 'month']) }}">This Month</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('vacancy.index', ['filter' => 'year']) }}">This Year</a></li>
-                                </ul>
-                            </div>
 
                             <div class="card-body">
-                                <h5 class="card-title">Working <span>| Today</span></h5>
+                                <h5 class="card-title">Working</h5>
 
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                         <i class="bi bi-cart"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>{{$stats->working_count}}</h6>
-                                        <span class="text-success small pt-1 fw-bold">{{ $stats->working_percentage}}%</span> <span
+                                        <h6>{{$stats->working_count ?? ''}}</h6>
+                                        <span class="text-success small pt-1 fw-bold">{{ $stats->working_percentage ?? ''}}%</span> <span
                                             class="text-muted small pt-2 ps-1">increase</span>
 
                                     </div>
@@ -91,29 +67,17 @@
                     <div class="col-xxl-3 col-md-6">
                         <div class="card info-card sales-card">
 
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-
-                                    <li><a class="dropdown-item" href="{{ route('vacancy.index', ['filter' => 'today']) }}">Today</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('vacancy.index', ['filter' => 'month']) }}">This Month</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('vacancy.index', ['filter' => 'year']) }}">This Year</a></li>
-                                </ul>
-                            </div>
 
                             <div class="card-body">
-                                <h5 class="card-title">Cancelled <span>| Today</span></h5>
+                                <h5 class="card-title">Cancelled</h5>
 
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                         <i class="bi bi-cart"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>{{$stats->cancelled_count}}</h6>
-                                        <span class="text-success small pt-1 fw-bold">{{ $stats->cancelled_percentage}}%</span> <span
+                                        <h6>{{$stats->cancelled_count ?? ''}}</h6>
+                                        <span class="text-success small pt-1 fw-bold">{{ $stats->cancelled_percentage ?? ''}}%</span> <span
                                             class="text-muted small pt-2 ps-1">increase</span>
 
                                     </div>
@@ -127,29 +91,17 @@
                     <div class="col-xxl-3 col-md-6">
                         <div class="card info-card sales-card">
 
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-
-                                    <li><a class="dropdown-item" href="{{ route('vacancy.index', ['filter' => 'today']) }}">Today</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('vacancy.index', ['filter' => 'month']) }}">This Month</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('vacancy.index', ['filter' => 'year']) }}">This Year</a></li>
-                                </ul>
-                            </div>
 
                             <div class="card-body">
-                                <h5 class="card-title">Closed <span>| Today</span></h5>
+                                <h5 class="card-title">Closed</h5>
 
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                         <i class="bi bi-cart"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>{{$stats->closed_count}}</h6>
-                                        <span class="text-success small pt-1 fw-bold">{{ $stats->closed_percentage}}%</span> <span
+                                        <h6>{{$stats->closed_count ?? ''}}</h6>
+                                        <span class="text-success small pt-1 fw-bold">{{ $stats->closed_percentage ?? ''}}%</span> <span
                                             class="text-muted small pt-2 ps-1">increase</span>
 
                                     </div>
@@ -166,7 +118,6 @@
                         <h5 class="card-title">Vacancies Tables</h5>
 
                         <form action="{{ route('vacancy.index') }}" method="GET">
-                            @csrf
                             <div class="mb-3">
                                 <label for="stateFilter" class="form-label">Filter by State</label>
                                 <div class="justify-content-between" role="group">

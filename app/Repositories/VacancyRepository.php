@@ -11,7 +11,7 @@ class VacancyRepository implements VacancyInterface
 
     public function all(): Collection|string
     {
-        $candidate = Vacancy::latest()->paginate(10);
+        $candidate = Vacancy::all();
         if($candidate->isEmpty()){
             return "No User Found";
         }

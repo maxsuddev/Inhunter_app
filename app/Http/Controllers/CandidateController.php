@@ -7,16 +7,21 @@ use App\Interfaces\CandidateInterface;
 use App\Models\App;
 use App\Models\Candidates;
 use App\Models\Language;
+use App\Services\CandidateService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Log;
 
 class CandidateController extends Controller
 {
     protected CandidateInterface $candidateRepository;
+    protected CandidateService $candidateService;
 
-    public function __construct(CandidateInterface $candidateRepository)
+    public function __construct(CandidateInterface $candidateRepository, CandidateService $candidateService)
     {
         $this->candidateRepository = $candidateRepository;
+        $this->candidateService = $candidateService;
     }
     /**
      * Display a listing of the resource.
@@ -24,24 +29,31 @@ class CandidateController extends Controller
     public function index(Request $request)
     {
         try {
-            $candidates = $this->candidateRepository->all();
+            $candidates = Candidates::latest()->paginate(10);
+            $state = $request->input('state', 'new');
 
+            $filterCandidates = $candidates->filter(function ($candidate) use ($state) {
+                return $candidate->status === $state;
+            });
+
+
+            $errorMessage = null;
             if (is_string($candidates)) {
-                $filterCandidates = $candidates;
-                return view('candidate.index', compact('filterCandidates'));
-            }else {
-                $status = $request->input('status', 'new');
-
-                $filterCandidates = $candidates->filter(function ($candidate) use ($status) {
-                    return $candidate->status === $status;
-                });
-
-                return view('candidate.index', compact('filterCandidates'));
+                $errorMessage = $candidates;
             }
+            // Optional: Get statistics if needed
+            $stats = $this->candidateService->getStatistics();
+
+            if (is_string($stats)) {
+                return redirect()->back()->with('error', 'Failed to retrieve statistics: ' . $stats);
+            }
+
+            return view('candidate.index', compact('filterCandidates', 'stats','errorMessage'));
         } catch (\Exception $e) {
-            Log::error(message: 'Hech qanday nomzod topilmadi:' . ' ' . $e->getMessage() . ' ' . 'Xato qatori' . ' ' . $e->getLine());
-            return  redirect()->route('candidate.index')->with('error', 'No se han encontrado nomzod!');
+            Log::error(message: 'Hech qanday vacancy topilmadi:' . ' ' . $e->getMessage() . ' ' . 'Xato qatori' . ' ' . $e->getLine());
+            return redirect()->route('vacancy.index')->with('error', 'No found data!');
         }
+
 
     }
 
@@ -65,7 +77,12 @@ class CandidateController extends Controller
     public function store(CandidateRequest $request)
     {
         try {
-            $this->candidateRepository->create($request->all());
+         $candidate =   $this->candidateRepository->create($request->all());
+
+         $newState = $request->input('status');
+
+          $this->candidateService->updateStatisticsOnCandidateUpdate(candidateId:  $candidate->id, newState: $newState);
+
             return redirect()->route('candidate.index')->with('success', 'Candidate created successfully!');
         } catch (\Exception $e) {
             Log::error('Hech qanday candidate qoshilmadi: ' . $e->getMessage());
@@ -114,5 +131,15 @@ class CandidateController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function changeState(Candidates $candidate)
+    {   $newState = 'working';
+        $this->candidateService->updateStatisticsOnCAndidateUpdate(candidateId: $candidate->id, newState: $newState, previousState: $candidate->status);
+        $candidate->user_id = Auth::id();
+        $candidate->status = $newState;
+        $candidate->save();
+
+        return redirect()->back()->with('success', 'Candidate state changed to working_vacancy.');
     }
 }
