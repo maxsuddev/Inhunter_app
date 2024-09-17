@@ -38,6 +38,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::controller(UserController::class)->group(function () {
             Route::get('/user', 'index')->name('user.index');
             Route::get('/user/{user}', 'show')->name('user.show')->middleware('is_user');
+            Route::get('/user/{user}/vacancy', 'user_vacancies')->name('user.vacancy')->middleware('is_user');
+            Route::get('/user/{user}/candidate', 'user_candidate')->name('user.candidate')->middleware('is_user');
+
         });
 
 

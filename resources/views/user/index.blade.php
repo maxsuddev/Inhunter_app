@@ -2,9 +2,6 @@
 @section('title', 'User')
 @section('page', 'Users Table')
 @section('content')
-
-
-
 <section class="section">
     <div class="row">
       <div class="col-lg-12">
@@ -37,10 +34,16 @@
                   <td>{{$user->created_at}}</td>
                     <td>
                         @if(auth()->check() && auth()->user()->id === $user->id)
-                            <a href="{{ route('user.show', ['user' => $user->id]) }}">
+                            <a class="spa_rout" href="{{ route('user.show', ['user' => $user->id]) }}">
                                 <span class="badge rounded-pill bg-primary p-2 ms-2">View all</span>
                             </a>
                         @endif
+
+                            @if(auth()->check() && auth()->user()->id === $user->id)
+                                <a class="spa_rout" href="{{ route('user.vacancy', ['user' => $user->id]) }}">
+                                    <span class="badge rounded-pill bg-primary p-2 ms-2">View all</span>
+                                </a>
+                            @endif
                     </td>
                 </tr>
               @endforeach
@@ -55,5 +58,4 @@
       </div>
     </div>
   </section>
-
 @endsection

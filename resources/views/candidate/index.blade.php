@@ -4,7 +4,7 @@
 @section('content')
 
     <div class="mb-3 align-right">
-        <a href="{{ route('candidate.create') }}" class="btn btn-primary"><i class="bi bi-database-add me-1"></i>Add candidate</a>
+        <a  href="{{ route('candidate.create') }}" class=" spa_rout btn btn-primary"><i class="bi bi-database-add me-1"></i>Add candidate</a>
     </div>
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">

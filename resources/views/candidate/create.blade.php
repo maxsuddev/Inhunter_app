@@ -3,7 +3,6 @@
 @section('title', 'Company')
 @section('page', 'Add Company')
 @section('content')
-
     <div class="mb-3 align-left">
         <a href="{{ route('candidate.index') }}" class="btn btn-secondary"><i class="ri-arrow-go-back-fill"></i>Back</a>
     </div>
@@ -236,4 +235,6 @@
             </div>
 
         </div>
-    </section>@endsection
+    </section>
+
+@endsection

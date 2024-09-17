@@ -4,9 +4,8 @@
 @section('content')
 
 
-
     <section class="section">
-        <div class="row">
+        <div class="row" id="spa">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
@@ -40,5 +39,4 @@
             </div>
         </div>
     </section>
-
 @endsection

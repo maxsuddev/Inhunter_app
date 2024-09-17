@@ -3,6 +3,7 @@
 @section('title', 'Vacancy')
 @section('page', 'Add Vacancy')
 @section('content')
+
     <div class="mb-3 align-left">
         <a href="{{ route('vacancy.index') }}" class="btn btn-secondary"><i class="ri-arrow-go-back-fill"></i>Back</a>
     </div>

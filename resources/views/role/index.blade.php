@@ -1,12 +1,10 @@
 @extends('panel.layouts.app')
 @section('title', 'Role')
 @section('page', 'Roles Table')
+
 @section('content')
-
-
-
     <section class="section">
-        <div class="row">
+        <div class="row spa">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
@@ -40,5 +38,4 @@
             </div>
         </div>
     </section>
-
 @endsection

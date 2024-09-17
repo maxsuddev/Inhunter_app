@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="mb-3 align-right">
-    <a href="{{ route('category.create') }}" class="btn btn-primary"><i class="bi bi-database-add me-1"></i>Add category</a>
+    <a href="{{ route('category.create') }}" class=" spa_rout btn btn-primary"><i class="bi bi-database-add me-1"></i>Add category</a>
 </div>
 @if(session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -25,7 +25,7 @@
                   <select id="stateFilter" name="status" class="form-select" onchange="this.form.submit()">
                       <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
                       <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
-                    
+
                   </select>
               </div>
           </form>
@@ -65,5 +65,4 @@
       </div>
     </div>
   </section>
-
 @endsection

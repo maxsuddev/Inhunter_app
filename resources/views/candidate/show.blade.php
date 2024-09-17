@@ -1,8 +1,6 @@
 @extends('panel.layouts.app')
 
 @section('content')
-
-
         <section class="section profile">
             <div class="row">
                 <div class="col-xl-4">
@@ -314,7 +312,6 @@
                 </div>
             </div>
         </section>
-
 
 @endsection
 

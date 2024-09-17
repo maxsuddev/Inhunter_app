@@ -3,7 +3,7 @@
 @section('page', 'Vacancies Table')
 @section('content')
     <div class="mb-3 align-right">
-        <a href="{{ route('vacancy.create') }}" class="btn btn-primary"><i class="bi bi-database-add me-1"></i>Add vacancies</a>
+        <a href="{{ route('vacancy.create') }}" class=" spa_rout btn btn-primary"><i class="bi bi-database-add me-1"></i>Add vacancies</a>
     </div>
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">

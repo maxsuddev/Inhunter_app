@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\Candidates;
 use App\Models\CandidateStatistic;
+use App\Models\Vacancy;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -155,8 +158,5 @@ class CandidateService
             Log::error('State logga yozishda xato: CANDIDATE ' . $e->getMessage() . ' ' . $e->getFile() . ' qator ' . $e->getLine());
         }
     }
-
-
-
 
 }
