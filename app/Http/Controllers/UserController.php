@@ -6,6 +6,12 @@ use App\Interfaces\UserInterface;
 use App\Models\Candidates;
 use App\Models\User;
 use App\Models\Vacancy;
+use App\Services\CandidateService;
+use App\Services\VacancyService;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -13,9 +19,13 @@ class UserController extends Controller
 {
 
     protected UserInterface $userRepository;
-    public function __construct(UserInterface $userRepository)
+    protected CandidateService $candidateService;
+    protected VacancyService $vacancyService;
+    public function __construct(UserInterface $userRepository, CandidateService $candidateService, VacancyService $vacancyService)
     {
         $this->userRepository = $userRepository;
+        $this->candidateService = $candidateService;
+        $this->vacancyService = $vacancyService;
     }
     /**
      * Display a listing of the resource.
@@ -100,6 +110,12 @@ class UserController extends Controller
         //
     }
 
+    /**  function redirect to user's vacancy page
+     * @param User $user
+     * @param Request $request
+     * @return Factory|View|Application|\Illuminate\View\View
+     */
+
     public function  user_vacancies(User $user, Request $request)
     {
         $user = User::findOrFail($user->id);
@@ -112,6 +128,11 @@ class UserController extends Controller
         return view('user.user_vacancy', compact('user', 'vacancies'));
     }
 
+    /** function redirect to user's candidate page
+     * @param User $user
+     * @param Request $request
+     * @return Factory|View|Application|\Illuminate\View\View
+     */
     public function  user_candidate(User $user, Request $request)
     {
         $user = User::findOrFail($user->id);
@@ -123,6 +144,46 @@ class UserController extends Controller
         return view('user.user_candidate', compact('user', 'candidates'));
 
     }
+
+
+
+
+
+
+    /** function change candidate state
+     * @param Request $request
+     * @param User $user
+     * @return RedirectResponse
+     */
+    public function updateStatusCandidate(Request $request, User $user)
+    {
+        $request->validate([
+            'status' => 'required|in:new,working,interview,archive,hired',
+            'candidate_id' => 'required|exists:candidates,id'
+        ]);
+        $newState = $request->input('status');
+        try {
+            $candidate = Candidates::where('user_id', $user->id)
+                ->where('id', $request->input('candidate_id'))
+                ->firstOrFail();
+            //statistic service
+            $this->candidateService->updateStatisticsOnCandidateUpdate(candidateId: $candidate->id, newState: $newState, previousState: $candidate->status);
+
+            $candidate->status = $newState;
+            $candidate->save();
+
+            return redirect()->back()->with('success', 'Candidate state changed to {$newState}.');
+        }catch (\Exception $e) {
+            Log::error('Candidate statusni yangilashda xatolik: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Candidate statusni yangilashda xatolik');
+        }
+    }
+
+
+
+
+
+
 
 
 

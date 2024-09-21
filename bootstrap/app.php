@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CheckUserCandidate;
 use App\Http\Middleware\IsUserMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -21,6 +22,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'permission' => PermissionMiddleware::class,
             'role_or_permission' => RoleOrPermissionMiddleware::class,
             'is_user' => IsUserMiddleware::class,
+            'candidate.owner' => CheckUserCandidate::class,
+
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -82,13 +82,5 @@ class VacancyController extends Controller
 
 
 
-    public function changeState(Vacancy $vacancy)
-    {   $newState = 'working_vacancy';
-        $this->statisticService->updateStatisticsOnVacancyUpdate( vacancyId: $vacancy->id, newState:  $newState, previousState:  $vacancy->state);
-        $vacancy->user_id = Auth::id();
-        $vacancy->state = $newState;
-        $vacancy->save();
 
-        return redirect()->back()->with('success', 'Vacancy state changed to working_vacancy.');
-    }
 }

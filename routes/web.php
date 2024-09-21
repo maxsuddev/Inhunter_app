@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ChangeState;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -34,12 +35,12 @@ Route::group(['middleware' => ['auth']], function () {
         })->name('dashboard');
 
 
-        //User
         Route::controller(UserController::class)->group(function () {
             Route::get('/user', 'index')->name('user.index');
             Route::get('/user/{user}', 'show')->name('user.show')->middleware('is_user');
             Route::get('/user/{user}/vacancy', 'user_vacancies')->name('user.vacancy')->middleware('is_user');
             Route::get('/user/{user}/candidate', 'user_candidate')->name('user.candidate')->middleware('is_user');
+            Route::post('/user/{user}/candidate', 'updateStatusCandidate')->name('candidate.updateStatus')->middleware('candidate.owner');
 
         });
 
@@ -59,8 +60,8 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('candidate/{candidate}', 'show')->name('candidate.show');
             Route::post('candidate', 'store')->name('candidate.store');
             Route::put('candidate/{candidate}', 'update')->name('candidate.update');
-            Route::get('/candidate/change-state/{candidate}', 'changeState')->name('candidate.changeState');
         });
+
 
         //Company
         Route::controller(CompanyController::class)->group(function () {
@@ -86,7 +87,19 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('vacancy/create', 'create')->name('vacancy.create');
             Route::post('vacancy', 'store')->name('vacancy.store');
             Route::get('vacancy/{vacancy}', 'show')->name('vacancy.show');
-            Route::get('/vacancy/change-state/{vacancy}', 'changeState')->name('vacancy.changeState');
         });
+    });
+
+    Route::controller(ChangeState::class)->group(function () {
+        Route::get('/vacancy/change-state/{vacancy}', 'changeStateVacancy')->name('vacancy.changeState');
+        Route::get('/candidate/change-state/{candidate}', 'changeStateCandidate')->name('candidate.changeState');
+        Route::post('/user/{user}/vacancy', 'updateStateVacancy')->name('vacancy.updateStatus');
+        Route::put('/user/{user}/vacancy', 'assignCandidate')->name('vacancy.assignCandidate');
+
+
+
+
+
+
     });
 });

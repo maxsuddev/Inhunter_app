@@ -78,45 +78,37 @@
                                     <td>{{ \Carbon\Carbon::parse($candidate->create_at)->format('d M, H:i') }}</td>
                                     <td> <a href="{{route('candidate.show',['candidate' => $candidate->id])}}"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a></td>
                                     <td>
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered">
-                                            Change state
+                                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changeStateModal"
+                                                data-candidate-id="{{ $candidate->id }}"
+                                                data-candidate-status="{{ $candidate->status }}">
+                                            Change Status
                                         </button>
                                     </td>
-                                    <div class="modal fade" id="verticalycentered" tabindex="-1">
+                                    <div class="modal fade" id="changeStateModal" tabindex="-1" aria-labelledby="changeStateModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title">Change state</h5>
+                                                    <h5 class="modal-title" id="changeStateModalLabel">Change State</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
-                                                <div class="modal-body ">
-                                                    <form action="{{ route('user.candidate', $user->id) }}" method="GET">
+                                                <div class="modal-body">
+                                                    <form action="{{ route('candidate.updateStatus', ['user' => $user->id]) }}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="candidate_id" id="candidate_id" value="{{$candidate->id}}">
+
                                                         <div class="mb-3">
-                                                            <label for="stateFilter" class="form-label">Filter by State</label>
-                                                            <div class="justify-content-between" role="group">
-                                                                <button type="submit" name="state" value="new" class="btn btn-primary  {{ request('state') == 'new' ? 'active btn-lg' : '' }}">
-                                                                    New
-                                                                </button>
-                                                                <button type="submit" name="state" value="working" class="btn btn-success  {{ request('state') == 'working' ? 'active' : '' }}">
-                                                                    Working
-                                                                </button>
-                                                                <button type="submit" name="state" value="interview" class="btn btn-secondary  {{ request('state') == 'interview' ? 'active' : '' }}">
-                                                                    Interview
-                                                                </button>
-                                                                <button type="submit" name="state" value="archive" class="btn btn-danger  {{ request('state') == 'archive' ? 'active' : '' }}">
-                                                                    Archive
-                                                                </button>
-                                                                <button type="submit" name="state" value="hired" class="btn btn-danger  {{ request('state') == 'hired' ? 'active' : '' }}">
-                                                                    Hired
-                                                                </button>
+                                                            <div class="btn-group1" role="group">
+                                                                <button type="submit" name="status" value="new" class="btn btn-primary" id="new_btn">New</button>
+                                                                <button type="submit" name="status" value="working" class="btn btn-success" id="working_btn">Working</button>
+                                                                <button type="submit" name="status" value="interview" class="btn btn-secondary" id="interview_btn">Interview</button>
+                                                                <button type="submit" name="status" value="archive" class="btn btn-danger" id="archive_btn">Archive</button>
                                                             </div>
                                                         </div>
                                                     </form>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div><!-- End Vertically centered Modal-->
-
+                                    </div>
                                 </tr>
                                 @endforeach
                                 </tbody>
@@ -129,9 +121,6 @@
                 </div>
             </div>
 
-            </div>
         </section>
-
-
 @endsection
 

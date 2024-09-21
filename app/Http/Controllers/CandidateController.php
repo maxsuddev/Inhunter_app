@@ -7,6 +7,7 @@ use App\Interfaces\CandidateInterface;
 use App\Models\App;
 use App\Models\Candidates;
 use App\Models\Language;
+use App\Models\User;
 use App\Services\CandidateService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -133,13 +134,8 @@ class CandidateController extends Controller
         //
     }
 
-    public function changeState(Candidates $candidate)
-    {   $newState = 'working';
-        $this->candidateService->updateStatisticsOnCAndidateUpdate(candidateId: $candidate->id, newState: $newState, previousState: $candidate->status);
-        $candidate->user_id = Auth::id();
-        $candidate->status = $newState;
-        $candidate->save();
 
-        return redirect()->back()->with('success', 'Candidate state changed to working_vacancy.');
-    }
+
+
+
 }
