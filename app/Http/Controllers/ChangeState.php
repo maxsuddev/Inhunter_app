@@ -56,40 +56,47 @@ class ChangeState extends Controller
 
     public function updateStateVacancy(Request $request, User $user)
     {
-        $request->validate([
-            'state' => 'required|in:open_vacancy,working_vacancy,close_vacancy,cancel_vacancy',
-            'vacancy_id' => 'required|exists:vacancies,id',
-        ]);
-
-        try {
-            $vacancy = Vacancy::where('user_id', $user->id)
-                ->where('id', $request->input('vacancy_id'))
-                ->firstOrFail();
-
-            $newState = $request->input('state');
-
-            $this->vacancyService->updateStatisticsOnVacancyUpdate($vacancy->id, $newState, $vacancy->state);
-
-
-            $vacancy->state = $newState;
-            $vacancy->save();
-            if ($newState === 'close_vacancy') {
-                $archivedCandidates = Candidates::where('user_id', $user->id)
-                    ->where('status', 'archive')
-                    ->get();
-                return redirect()->back()->with([
-                    'success' => 'Vacancy state updated to closed.',
-                    'archivedCandidates' => $archivedCandidates
-                ]);
-            }
-
-            return redirect()->back()->with('success', 'Vacancy state successfully updated.');
-
-        } catch (\Exception $e) {
-            Log::error('Error updating vacancy state: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'An error occurred while updating the vacancy state.');
+        if ($request->input('bind_candidate') === 'bind_candidate') {
+            $archivedCandidates = Candidates::where('user_id', $user->id)
+                ->where('status', 'archive')
+                ->get();
+            return redirect()->back()->with([
+                'success' => 'You may choose candidate from archive.',
+                'archivedCandidates' => $archivedCandidates,
+                'vacancy_id' => $request->input('vacancy_id')
+            ]);
         }
-    }
+
+
+            $request->validate([
+                'state' => 'required|in:open_vacancy,working_vacancy,close_vacancy,cancel_vacancy',
+                'vacancy_id' => 'required|exists:vacancies,id',
+            ]);
+
+            try {
+
+                $vacancy = Vacancy::where('user_id', $user->id)
+                    ->where('id', $request->input('vacancy_id'))
+                    ->firstOrFail();
+
+                $newState = $request->input('state');
+
+                $this->vacancyService->updateStatisticsOnVacancyUpdate($vacancy->id, $newState, $vacancy->state);
+
+
+                $vacancy->state = $newState;
+                $vacancy->closed_at = now();
+                $vacancy->save();
+
+
+                return redirect()->back()->with('success', 'Vacancy state successfully updated.');
+
+            } catch (\Exception $e) {
+                Log::error('Error updating vacancy state: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'An error occurred while updating the vacancy state.');
+            }
+        }
+
 
 
 
@@ -100,22 +107,25 @@ class ChangeState extends Controller
             'candidate_id' => 'required|exists:candidates,id',
             'vacancy_id' => 'required|exists:vacancies,id',
         ]);
+        Log::info('Request vacancy_id: ' . $request->input('vacancy_id'));
+
+        $candidate_id = $request->input('candidate_id');
 
         try {
             $vacancy = Vacancy::where('user_id', $user->id)
                 ->where('id', $request->input('vacancy_id'))
                 ->firstOrFail();
+            $candidate = Candidates::where('id', $candidate_id)->firstOrFail();
 
-            $candidate = Candidates::where('id', $request->input('candidate_id'))->firstOrFail();
-
-            $vacancy->candidate_id = $request->input('candidate_id');
+            $vacancy->candidate_id = $candidate_id;
             $vacancy->save();
 
+            $previousState = $candidate->status;
             $newState = 'hired';
             $candidate->status = $newState;
             $candidate->save();
 
-            $this->vacancyService->updateStatisticsOnVacancyUpdate($vacancy->id, $newState, $vacancy->state);
+            $this->candidateService->updateStatisticsOnCandidateUpdate($candidate->id, $newState, $previousState);
             return redirect()->back()->with('success', 'The candidate vacancy has been achieved.');
 
         } catch (\Exception $e) {
