@@ -14,6 +14,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -51,7 +52,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::all('name', 'id');
+        return view('user.create', compact('roles'));
     }
 
     /**

@@ -3,7 +3,9 @@
 @section('page', 'Candidates Table')
 @section('content')
 
-    <div class="mb-3 align-right">
+    @if(auth()->user()->hasRole('employee'))
+
+        <div class="mb-3 align-right">
         <a  href="{{ route('candidate.create') }}" class=" spa_rout btn btn-primary"><i class="bi bi-database-add me-1"></i>Add candidate</a>
     </div>
     @if(session('success'))
@@ -11,6 +13,7 @@
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+    @endif
     @endif
     <section class="section dashboard">
         <div class="row">
@@ -172,7 +175,9 @@
                                 <th>App</th>
                                 <th data-type="date" data-format="YYYY/DD/MM">Start Date</th>
                                 <th>Show</th>
+                                @if(auth()->user()->hasRole('employee'))
                                 <th>Action</th>
+                                @endif
                             </tr>
                             </thead>
                             <tbody>
@@ -187,15 +192,16 @@
                                 <td>{{$candidate->created_at}}</td>
                                 <td> <a href="{{route('candidate.show',['candidate' => $candidate->id])}}"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a></td>
                                 <td>
-                                    @if($candidate->status === 'new')
+                                    @if($candidate->status === 'new' && auth()->user()->hasRole('employee'))
                                         <a href="{{ route('candidate.changeState', $candidate->id) }}" class="btn btn-sm btn-primary">
                                             Assign to Me
                                         </a>
-@endif
+                                    @endif
 
                                 </td>
                             </tr>
-                            @endforeach  @else
+                            @endforeach
+                            @else
                                 <tr>
                                     <td>{{$filterCandidates}}</td>
                                 </tr>

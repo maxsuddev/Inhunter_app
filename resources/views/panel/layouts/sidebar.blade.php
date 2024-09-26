@@ -18,13 +18,14 @@
             </a>
         </li>
 
+        @if(auth()->user()->hasRole('manager'))
+
         <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('role.index')? '' : 'collapsed'  }}" href="{{route('role.index')}}">
                 <i class="ri-admin-fill"></i>
                 <span>Role</span>
             </a>
         </li>
-
         <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('permission.index')? '' : 'collapsed'  }}" href="{{route('permission.index')}}">
                 <i class="bi bi-person-check-fill"></i>
@@ -32,6 +33,13 @@
             </a>
         </li>
 
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{route('category.index')}}">
+                    <i class="ri-grid-fill"></i>
+                    <span>Category</span>
+                </a>
+            </li>
+        @endif
         <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('candidate.index')? '' : 'collapsed'  }}" href="{{route('candidate.index')}}">
                 <i class="ri-open-arm-fill"></i>
@@ -46,12 +54,7 @@
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="{{route('category.index')}}">
-                <i class="ri-grid-fill"></i>
-                <span>Category</span>
-            </a>
-        </li>
+
 
 
         <li class="nav-item">

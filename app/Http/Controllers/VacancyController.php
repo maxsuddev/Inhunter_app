@@ -80,7 +80,8 @@ class VacancyController extends Controller
 
 
 
-
-
-
+    public function show(Vacancy $vacancy)
+    {
+       return view('vacancy.show', compact('vacancy'));
+    }
 }

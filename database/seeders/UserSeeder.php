@@ -17,14 +17,14 @@ class UserSeeder extends Seeder
 
 
         $admin1 =   User::create([
-            'name' => 'Developer',
-            'email' => 'developer@example.com',
+            'name' => 'Employee',
+            'email' => 'employee@example.com',
             'password' => bcrypt('password'),
         ]);
 
         $admin =  User::create([
-          'name' => 'Admin',
-          'email' => 'admin@example.com',
+          'name' => 'Manager',
+          'email' => 'manager@example.com',
           'password' => bcrypt('password'),
       ]);
 
@@ -37,8 +37,11 @@ class UserSeeder extends Seeder
 
 
 
-        $adminRole = Role::where('name', 'admin')->first();
-        $admin->syncRoles($adminRole);
-        $admin1->syncRoles($adminRole);
+        $managerRole = Role::where('name', 'manager')->first();
+        $employeeRole = Role::where('name', 'employee')->first();
+
+
+        $admin->syncRoles($managerRole);
+        $admin1->syncRoles($employeeRole);
      }
 }

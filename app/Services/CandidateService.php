@@ -60,27 +60,23 @@ class CandidateService
 
     private function updateCount($statistic, $state, $change): void
     {
-        switch ($state) {
-            case 'new':
-                $statistic->increment('new_count', $change);
-                break;
-            case 'working':
-                $statistic->increment('working_count', $change);
-                break;
-            case 'interview':
-                $statistic->increment('interview_count', $change);
-                break;
-            case 'archive':
-                $statistic->increment('archive_count', $change);
-                break;
-                case 'hired':
-                    $statistic->increment('hired_count', $change);
-                    break;
-            default:
-                Log::info('No matching state found for increment.');
-                break;
+        $field = match ($state) {
+            'new' => 'new_count',
+            'working' => 'working_count',
+            'interview' => 'interview_count',
+            'archive' => 'archive_count',
+            'hired' => 'hired_count',
+            default => null,
+        };
+
+        if ($field) {
+            $statistic->{$field} = max(0, $statistic->{$field} + $change);
+            $statistic->save();
+        } else {
+            Log::info('No matching state found for increment.');
         }
     }
+
 
     private function updatePercentages($statistic): void
     {

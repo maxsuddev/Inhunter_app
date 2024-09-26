@@ -19,16 +19,21 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Users Tables</h5>
-            <form method="GET" action="{{ route('category.index') }}">
-              <div class="mb-3">
-                  <label for="stateFilter" class="form-label">Filter by State</label>
-                  <select id="stateFilter" name="status" class="form-select" onchange="this.form.submit()">
-                      <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
-                      <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
+              <form action="{{ route('category.index') }}" method="GET">
+                  <div class="mb-3">
+                      <label for="stateFilter" class="form-label">Filter by State</label>
+                      <div class="justify-content-between" role="group">
+                          <button type="submit" name="status" value="active" class="btn btn-success {{ request('status') == 'active' ? 'active' : '' }}">
+                              Active
+                          </button>
+                          <button type="submit" name="status" value="inactive" class="btn btn-danger {{ request('status') == 'inactive' ? 'active' : '' }}">
+                              Inactive
+                          </button>
 
-                  </select>
-              </div>
-          </form>
+                      </div>
+                  </div>
+              </form>
+
 
             <table class="table datatable">
               <thead>

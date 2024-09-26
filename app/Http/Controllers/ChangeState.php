@@ -107,7 +107,6 @@ class ChangeState extends Controller
             'candidate_id' => 'required|exists:candidates,id',
             'vacancy_id' => 'required|exists:vacancies,id',
         ]);
-        Log::info('Request vacancy_id: ' . $request->input('vacancy_id'));
 
         $candidate_id = $request->input('candidate_id');
 

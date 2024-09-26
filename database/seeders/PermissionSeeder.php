@@ -12,29 +12,58 @@ class PermissionSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run()
     {
+        // Permissionlarni yaratish
         $permissions = [
-            'get-all-roles',
-            'create-roles',
-            'update-roles',
-            'delete-roles',
-            'add-role-permissions',
-            'get-all-permissions',
-            'create-permissions',
-            'update-permissions',
-            'delete-permissions',
-            'get-all-users',
-            'create-users',
-            'update-users',
-            'delete-users',
+            // Users
+            'index-users',
+            'show-users',
+            'create-user',
+
+            // Vacancies
+            'users-vacancies',
+            'users-candidate',
+            'candidates-owner',
+
+            // Roles
+            'index-roles',
+
+            // Permissions
+            'index-permissions',
+
+            // Candidates
+            'index-candidates',
+            'create-candidates',
+            'show-candidates',
+            'update-candidates',
+
+            // Companies
+            'index-companies',
+            'create-companies',
+            'show-companies',
+            'update-companies',
+            'delete-companies',
+
+            // Categories
+            'index-categories',
+            'create-categories',
+            'show-categories',
+            'update-categories',
+            'delete-categories',
+
+            // Vacancies
+            'index-vacancies',
+            'create-vacancies',
+            'show-vacancies',
+            'change-state',
+            'update-vacancies',
         ];
 
-        foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
+        foreach ($permissions as $permissionName) {
+            Permission::create(['name' => $permissionName]);
         }
 
-        $adminRole = Role::where('name', 'admin')->first();
-        $adminRole->givePermissionTo($permissions);
+        $this->command->info('Barcha permissionlar muvaffaqiyatli yaratildi!');
     }
 }

@@ -3,7 +3,8 @@
 @section('page', 'Companies Table')
 @section('content')
 
-    <div class="mb-3 align-right">
+    @if(auth()->user()->hasRole('manager'))
+        <div class="mb-3 align-right">
         <a href="{{ route('company.create') }}" class=" spa_rout btn btn-primary"><i class="bi bi-database-add me-1"></i>Add company</a>
     </div>
     @if(session('success'))
@@ -12,7 +13,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-
+    @endif
 <section class="section">
     <div class="row">
       <div class="col-lg-12">
@@ -31,7 +32,9 @@
                   <th>Owner Name</th>
                     <th>Phone</th>
                   <th data-type="date" data-format="YYYY/DD/MM">Created at</th>
-                  <th>Action</th>
+                    @if(auth()->user()->hasRole('manager'))
+                    <th>Action</th>
+                    @endif
                 </tr>
               </thead>
               <tbody>
@@ -43,7 +46,9 @@
                     <td>{{$company->owner_name}}</td>
                     <td>{{$company->phone_number}}</td>
                     <td>{{$company->created_at}}</td>
+                    @if(auth()->user()->hasRole('manager'))
                     <td> <a href="{{route('company.show',['company' => $company->id])}}"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a></td>
+                    @endif
 
                 </tr>
               @endforeach

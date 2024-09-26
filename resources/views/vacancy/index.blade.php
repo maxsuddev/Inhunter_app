@@ -2,7 +2,8 @@
 @section('title', 'Vacancy')
 @section('page', 'Vacancies Table')
 @section('content')
-    <div class="mb-3 align-right">
+    @if(auth()->user()->hasRole('manager'))
+        <div class="mb-3 align-right">
         <a href="{{ route('vacancy.create') }}" class=" spa_rout btn btn-primary"><i class="bi bi-database-add me-1"></i>Add vacancies</a>
     </div>
     @if(session('success'))
@@ -10,6 +11,7 @@
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+    @endif
     @endif
 
     <section class="section dashboard">
@@ -145,14 +147,18 @@
                                 <th>Name</th>
                                 <th>Company Name</th>
                                 <th>Category</th>
-                                @if($filterVacancies->contains('state', 'working_vacancy'))
+                                @if($filterVacancies->contains('state', 'close_vacancy') || $filterVacancies->contains('state', 'working_vacancy'))
                                     <th>User Name</th>
-                                @elseif($filterVacancies->contains('state', 'close_vacancy'))
+                                @endif
+                                @if($filterVacancies->contains('state', 'close_vacancy'))
                                     <th>Candidate</th>
                                 @endif
                                 <th>State</th>
                                 <th>Opened</th>
+                                <th>Show</th>
+                                @if(auth()->user()->hasRole('employee'))
                                 <th>Action</th>
+                                @endif
                             </tr>
                             </thead>
                             <tbody>
@@ -165,21 +171,21 @@
 
                                     @if($vacancy->state === 'working_vacancy')
                                         <td>{{ $vacancy->user->name }}</td>
-                                    @elseif($vacancy->state === 'close_vacancy')
+                                    @endif
+                                    @if($vacancy->state === 'close_vacancy')
                                         <td>{{ $vacancy->candidate->full_name ?? '' }}</td>
                                     @endif
 
                                     <td>{{ $vacancy->state }}</td>
                                     <td>{{ \Carbon\Carbon::parse($vacancy->opened_at)->format('d M, H:i') }}</td>
-
+                                    <td> <a href="{{route('vacancy.show',['vacancy' => $vacancy->id])}}"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a></td>
                                     <!-- Action column -->
                                     <td>
-                                        @if($vacancy->state === 'open_vacancy')
+                                        @if($vacancy->state === 'open_vacancy' && auth()->user()->hasRole('employee'))
                                             <a href="{{ route('vacancy.changeState', $vacancy->id) }}" class="btn btn-sm btn-primary">
                                                 Assign to Me
                                             </a>
-    @endif
-
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

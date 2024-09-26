@@ -2,6 +2,19 @@
 @section('title', 'User')
 @section('page', 'Users Table')
 @section('content')
+    @if(auth()->user()->hasRole('manager'))
+
+    <div class="mb-3 align-right">
+        <a href="{{ route('user.create') }}" class=" spa_rout btn btn-primary"><i class="bi bi-database-add me-1"></i>Add user</a>
+    </div>
+
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    @endif
 <section class="section">
     <div class="row">
       <div class="col-lg-12">
@@ -39,15 +52,14 @@
                             </a>
                         @endif
 
-                            @if(auth()->check() && auth()->user()->id === $user->id)
+                            @if(auth()->check() && auth()->user()->id === $user->id && auth()->user()->hasRole('employee'))
                                 <a class="spa_rout" href="{{ route('user.vacancy', ['user' => $user->id]) }}">
-                                    <span class="badge rounded-pill bg-primary p-2 ms-2">View all</span>
+                                    <span class="badge rounded-pill bg-success p-2 ms-2">Desktop</span>
                                 </a>
                             @endif
                     </td>
                 </tr>
               @endforeach
-
               </tbody>
             </table>
             <!-- End Table with stripped rows -->

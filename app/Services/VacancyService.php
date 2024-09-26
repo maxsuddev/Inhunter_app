@@ -51,24 +51,22 @@ class VacancyService
 
     private function updateCount($statistic, $state, $change): void
     {
-        switch ($state) {
-            case 'open_vacancy':
-                $statistic->increment('open_count', $change);
-                break;
-            case 'working_vacancy':
-                $statistic->increment('working_count', $change);
-                break;
-            case 'close_vacancy':
-                $statistic->increment('closed_count', $change);
-                break;
-            case 'cancel_vacancy':
-                $statistic->increment('cancelled_count', $change);
-                break;
-            default:
-                Log::info('No matching state found for increment.');
-                break;
+        $field = match ($state) {
+            'open_vacancy' => 'open_count',
+            'working_vacancy' => 'working_count',
+            'close_vacancy' => 'closed_count',
+            'cancel_vacancy' => 'cancelled_count',
+            default => null,
+        };
+
+        if ($field) {
+            $statistic->{$field} = max(0, $statistic->{$field} + $change);
+            $statistic->save();
+        } else {
+            Log::info('Tegishli state topilmadi.');
         }
     }
+
 
     private function updatePercentages($statistic): void
     {

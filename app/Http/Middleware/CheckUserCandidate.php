@@ -13,7 +13,6 @@ class CheckUserCandidate
         $candidateId = $request->input('candidate_id');
         $candidate = Candidates::findOrFail($candidateId);
 
-        // Check if the authenticated user's ID matches the candidate's user_id
         if (auth()->check() && auth()->user()->id === $candidate->user_id) {
             return $next($request);
         }
